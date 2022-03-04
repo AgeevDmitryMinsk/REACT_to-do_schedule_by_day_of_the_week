@@ -4,11 +4,13 @@ import {tasksType, tasksValueType} from "./App";
 type TodoListType = {
 	weekTitle: string
 	tasks: tasksType[]
-	addTitle: (title: string) => void
-	changeTitleStatus: (taskID: string, isDone: boolean) => void
-	removeTitle: (taskID: string) => void
-	sortTitlesOnButtonStatus: (value: tasksValueType) => void
+	addTitle: (dayID: string, title: string) => void
+	changeTitleStatus: (dayID: string, taskID: string, isDone: boolean) => void
+	removeTitle: (dayID: string, taskID: string) => void
+	sortTitlesOnButtonStatus: (dayID: string, value: tasksValueType) => void
 	filter: string
+	dayID: string
+	removeDay: (dayID: string) => void
 }
 
 const TodoList: React.FC<TodoListType> = ({
@@ -18,7 +20,9 @@ const TodoList: React.FC<TodoListType> = ({
 																						changeTitleStatus,
 																						removeTitle,
 																						sortTitlesOnButtonStatus,
-																						filter
+																						filter,
+																						dayID,
+																						removeDay
 																					}) => {
 
 	const [title, setTitle] = useState(``)
@@ -26,7 +30,7 @@ const TodoList: React.FC<TodoListType> = ({
 
 	function onCLickButtonHandle() {
 		if (title.trim() !== ``) {
-			addTitle(title.trim())
+			addTitle(dayID, title.trim())
 			setTitle(``)
 		} else {
 			setError(`please, enter some test`)
@@ -52,24 +56,36 @@ const TodoList: React.FC<TodoListType> = ({
 	}
 
 
-	function onCLickButtonStatusHandle(value: tasksValueType) {
-		sortTitlesOnButtonStatus(value)
+	function onCLickButtonStatusHandle(dayID: string, value: tasksValueType) {
+		sortTitlesOnButtonStatus(dayID, value)
 	}
 
-	let ButtonStyleALL = filter===`all`? `active` : ``
-	let ButtonStyleCompleted = filter===`completed`? `active` : ``
-	let ButtonStyleUnCompleted = filter===`uncompleted`? `active` : ``
+	console.log(61, filter)
+	let ButtonStyleALL = filter === `all` ? `active` : ``
+	let ButtonStyleCompleted = filter === `completed` ? `active` : ``
+	let ButtonStyleUnCompleted = filter === `uncompleted` ? `active` : ``
 
 	let InputStyle = (error) ? `errorInput` : ``
+
+	function onClickRemoveDayHandler() {
+		console.log(69)
+		removeDay(dayID)
+	}
+
+	function onBlurInputHandle(e: React.FocusEvent<HTMLInputElement, Element>) {
+		onCLickButtonHandle()
+	}
 
 	return (
 		<div>
 			<div>
 				{weekTitle}
+				<button onClick={onClickRemoveDayHandler}>X</button>
 			</div>
 			<input type={"text"} value={title}
 						 onChange={onChangeInputHandle}
 						 onKeyPress={onKeyPressInputHandle}
+						 onBlur={onBlurInputHandle}
 						 className={InputStyle}
 			/>
 			<button onClick={onCLickButtonHandle}>+</button>
@@ -79,12 +95,12 @@ const TodoList: React.FC<TodoListType> = ({
 			{tasks.map(el => {
 				function onChangeCheckBoxHandle() {
 					console.log(43)
-					changeTitleStatus(el.id, el.isDone)
+					changeTitleStatus(dayID, el.id, el.isDone)
 				}
 
 				function onClickRemoveHandleButton() {
 					console.log(62)
-					removeTitle(el.id)
+					removeTitle(dayID, el.id)
 				}
 
 				return (
@@ -98,23 +114,23 @@ const TodoList: React.FC<TodoListType> = ({
 				)
 			})}
 
-			<button onClick={() => onCLickButtonStatusHandle(`all`)}
+			<button onClick={() => onCLickButtonStatusHandle(dayID, `all`)}
 							className={ButtonStyleALL}>
-			all
-		</button>
-	<button onClick={() => onCLickButtonStatusHandle(`completed`)}
-					className={ButtonStyleCompleted}>
-		completed
-	</button>
-	<button onClick={() => onCLickButtonStatusHandle(`uncompleted`)}
-					className={ButtonStyleUnCompleted}>
-		uncompleted
-	</button>
+				all
+			</button>
+			<button onClick={() => onCLickButtonStatusHandle(dayID, `completed`)}
+							className={ButtonStyleCompleted}>
+				completed
+			</button>
+			<button onClick={() => onCLickButtonStatusHandle(dayID, `uncompleted`)}
+							className={ButtonStyleUnCompleted}>
+				uncompleted
+			</button>
 
 
-</div>
-)
-	;
+		</div>
+	)
+		;
 };
 
 export default TodoList;

@@ -9,66 +9,174 @@ export type tasksType = {
 	isDone: boolean
 }
 
-export type tasksValueType = `all` | `completed` | `uncompleted`
+export type daysType = {
+	id: string
+	title: string
+	filter: tasksValueType
+}
 
-const initialTasks: tasksType[] = [
-	{id: v1(), title: "1ое дело", isDone: true},
-	{id: v1(), title: "2ое дело", isDone: false},
-	{id: v1(), title: "3е дело", isDone: false},
-	{id: v1(), title: "4е дело", isDone: false},
-	{id: v1(), title: "5е дело", isDone: false},
-	{id: v1(), title: "6е дело", isDone: false},
-	{id: v1(), title: "7е дело", isDone: false},
-]
+export type tasksValueType = `all` | `completed` | `uncompleted`
 
 
 function App() {
+	const mondayID = v1()
+	const tuesdayID = v1()
+	const wednesdayID = v1()
+	const thursdayID = v1()
+	const fridayID = v1()
+	const saturdayID = v1()
+	const sundayID = v1()
 
-	const [tasks, setTasks] = useState(initialTasks)
-	const [filter, setFilter] = useState(`all`)
 
-	function 	addTitle(inpTitle:string) {
-		setTasks([...tasks, {id: v1(), title: inpTitle, isDone: false},])
+	const initialTasks: { [key: string]: tasksType[] } = {
+		[mondayID]: [
+			{id: v1(), title: "1st _ job ", isDone: true},
+			{id: v1(), title: "2nd _ job ", isDone: true},
+			{id: v1(), title: "3th _ job ", isDone: true},
+			{id: v1(), title: "4th _ job ", isDone: false},
+			{id: v1(), title: "5th _ job ", isDone: false},
+			{id: v1(), title: "6th _ job ", isDone: true},
+			{id: v1(), title: "7th _ job ", isDone: false},
+		],
+		[tuesdayID]: [
+			{id: v1(), title: "10th  _ job ", isDone: true},
+			{id: v1(), title: "11th  _ job ", isDone: true},
+			{id: v1(), title: "12th  _ job ", isDone: false},
+			{id: v1(), title: "13th  _ job ", isDone: false},
+			{id: v1(), title: "14th  _ job ", isDone: true},
+			{id: v1(), title: "15th  _ job ", isDone: false},
+			{id: v1(), title: "16th  _ job ", isDone: false},
+		],
+		[wednesdayID]: [
+			{id: v1(), title: "17th  _ job ", isDone: true},
+			{id: v1(), title: "18th  _ job ", isDone: false},
+			{id: v1(), title: "19th  _ job ", isDone: false},
+			{id: v1(), title: "20th  _ job ", isDone: false},
+			{id: v1(), title: "21th  _ job ", isDone: false},
+			{id: v1(), title: "22th  _ job ", isDone: false},
+			{id: v1(), title: "23th  _ job ", isDone: true},
+		],
+		[thursdayID]: [
+			{id: v1(), title: "25th  _ job ", isDone: true},
+			{id: v1(), title: "26th  _ job ", isDone: false},
+			{id: v1(), title: "27th  _ job ", isDone: false},
+			{id: v1(), title: "28th  _ job ", isDone: false},
+			{id: v1(), title: "29th  _ job ", isDone: false},
+			{id: v1(), title: "30th  _ job ", isDone: false},
+			{id: v1(), title: "31th  _ job ", isDone: false},
+		],
+		[fridayID]: [
+			{id: v1(), title: "35th  _ job ", isDone: true},
+			{id: v1(), title: "36th  _ job ", isDone: true},
+			{id: v1(), title: "37th  _ job ", isDone: true},
+			{id: v1(), title: "38th  _ job ", isDone: false},
+			{id: v1(), title: "39th  _ job ", isDone: true},
+			{id: v1(), title: "40th  _ job ", isDone: false},
+			{id: v1(), title: "41th  _ job ", isDone: false},
+		],
+		[saturdayID]: [
+			{id: v1(), title: "25th  _ job ", isDone: true},
+			{id: v1(), title: "26th  _ job ", isDone: false},
+			{id: v1(), title: "27th  _ job ", isDone: false},
+			{id: v1(), title: "28th  _ job ", isDone: false},
+			{id: v1(), title: "29th  _ job ", isDone: false},
+			{id: v1(), title: "30th  _ job ", isDone: true},
+			{id: v1(), title: "31th  _ job ", isDone: false},
+		],
+		[sundayID]: [
+			{id: v1(), title: "42th  _ job ", isDone: true},
+			{id: v1(), title: "43th  _ job ", isDone: false},
+			{id: v1(), title: "44th  _ job ", isDone: false},
+			{id: v1(), title: "45th  _ job ", isDone: false},
+			{id: v1(), title: "46th  _ job ", isDone: false},
+			{id: v1(), title: "47th  _ job ", isDone: false},
+			{id: v1(), title: "48th  _ job ", isDone: true},
+		],
+
 	}
 
-	function changeTitleStatus(taskID:string, isDoneTask: boolean) {
-		setTasks([...tasks.map(el=> el.id === taskID ? {...el, isDone: !isDoneTask} : el)])
+	const [tasks, setTasks] = useState<{ [key: string]: tasksType[] }>(initialTasks)
+
+	const [days, setDays] = useState<daysType[]>([
+			{id: mondayID, title: `Monday`, filter: "all"},
+			{id: tuesdayID, title: `Tuesday`, filter: "all"},
+			{id: wednesdayID, title: `Wednesday`, filter: "all"},
+			{id: thursdayID, title: `Thursday`, filter: "all"},
+			{id: fridayID, title: `Friday`, filter: "all"},
+			{id: saturdayID, title: `Saturday`, filter: "all"},
+			{id: sundayID, title: `Saturday`, filter: "all"},
+		]
+	)
+
+	//const [filter, setFilter] = useState<tasksValueType>(`all`) - убрали/переместили в 87ю строку el.filter!!!
+
+
+	function addTitle(dayID: string, inpTitle: string) {
+		//setTasks([...tasks, {id: v1(), title: inpTitle, isDone: false},])
+		setTasks({...tasks, [dayID]: [...tasks[dayID], {id: v1(), title: inpTitle, isDone: false}]})
 	}
 
-	function removeTitle(taskID:string) {
-		console.log(37)
-		setTasks([...tasks.filter(el=> el.id !== taskID)])
+	function changeTitleStatus(dayID: string, taskID: string, isDoneTask: boolean) {
+		//setTasks([...tasks.map(el => el.id === taskID ? {...el, isDone: !isDoneTask} : el)])
+		setTasks({
+			...tasks, [dayID]: tasks[dayID].map(el => el.id === taskID
+				? {...el, isDone: !isDoneTask}
+				: el)
+		})
 	}
 
-
-	let currentTasks = tasks
-	if (filter === `completed`) currentTasks =	tasks.filter(el=> el.isDone)
-	if (filter === `uncompleted`) currentTasks = tasks.filter(el=> !el.isDone)
-
-	function sortTitlesOnButtonStatus(value: tasksValueType){
-		setFilter(value)
+	function removeTitle(dayID: string, taskID: string) {
+		//setTasks([...tasks.filter(el => el.id !== taskID)])
+		console.log(60, {[dayID]: tasks[dayID]})
+		setTasks({...tasks, [dayID]: tasks[dayID].filter(el => el.id !== taskID)})
 	}
 
+	function sortTitlesOnButtonStatus(dayID: string, value: tasksValueType) {
+		setDays([...days.map(el => el.id === dayID
+			? {...el, filter: value}
+			: el)])
+	}
 
+	function removeDay(dayID: string) {
+		setDays([...days.filter(el => el.id !== dayID)])
+		console.log(tasks)
+		delete tasks[dayID]
+		console.log(tasks)
+	}
 
 
 	return (
+
 		<div className="App">
+			<h1> Todo Week Schedule</h1>
 
-					<TodoList
-						tasks = {currentTasks}
-						weekTitle={`Понедельник`}
-						addTitle={addTitle}
-						changeTitleStatus={changeTitleStatus}
-						removeTitle={removeTitle}
-						sortTitlesOnButtonStatus={sortTitlesOnButtonStatus}
-						filter={filter}
-					/>
-
-
-
+			<div className="days_container">
+				{days.map(el => {
+					let currentTasks = tasks[el.id]
+					if (el.filter === `completed`) currentTasks = tasks[el.id].filter(el => el.isDone)
+					if (el.filter === `uncompleted`) currentTasks = tasks[el.id].filter(el => !el.isDone)
+					return (
+						<div className={`week`} key={el.id}>
+							<TodoList
+								key={el.id}
+								dayID={el.id}
+								tasks={currentTasks}
+								weekTitle={el.title}
+								addTitle={addTitle}
+								changeTitleStatus={changeTitleStatus}
+								removeTitle={removeTitle}
+								sortTitlesOnButtonStatus={sortTitlesOnButtonStatus}
+								filter={el.filter}
+								removeDay={removeDay}
+							/>
+						</div>
+					)
+				})
+				}
+			</div>
 		</div>
-	);
+	)
+		;
 }
 
 export default App;
