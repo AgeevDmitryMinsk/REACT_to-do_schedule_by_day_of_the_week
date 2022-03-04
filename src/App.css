@@ -9,3 +9,19 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+
+.tasksStyle{
+  text-align: left;
+}
+.errorStyle{
+  color: red;
+}
+
+.errorInput {
+  border: red 3px solid;
+}
+
+
+.active{
+  background: greenyellow;
+}
