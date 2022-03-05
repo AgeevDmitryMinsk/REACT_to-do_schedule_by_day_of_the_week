@@ -115,18 +115,18 @@ const TodoList: React.FC<TodoListType> = ({
 				)
 			})}
 
-			{/*<button onClick={() => onCLickButtonStatusHandle(dayID, `all`)}*/}
-			{/*				className={ButtonStyleALL}>*/}
-			{/*	all*/}
-			{/*</button>*/}
-			{/*<button onClick={() => onCLickButtonStatusHandle(dayID, `completed`)}*/}
-			{/*				className={ButtonStyleCompleted}>*/}
-			{/*	completed*/}
-			{/*</button>*/}
-			{/*<button onClick={() => onCLickButtonStatusHandle(dayID, `uncompleted`)}*/}
-			{/*				className={ButtonStyleUnCompleted}>*/}
-			{/*	uncompleted*/}
-			{/*</button>*/}
+			<button onClick={() => onCLickButtonStatusHandle(dayID, `all`)}
+							className={ButtonStyleALL}>
+				all
+			</button>
+			<button onClick={() => onCLickButtonStatusHandle(dayID, `completed`)}
+							className={ButtonStyleCompleted}>
+				completed
+			</button>
+			<button onClick={() => onCLickButtonStatusHandle(dayID, `uncompleted`)}
+							className={ButtonStyleUnCompleted}>
+				uncompleted
+			</button>
 
 			<ButtonStatus onCLickButtonStatusHandle={onCLickButtonStatusHandle}
 										dayID={dayID}

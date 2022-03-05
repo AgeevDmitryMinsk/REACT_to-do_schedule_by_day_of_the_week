@@ -1,31 +1,38 @@
 import React, {useState} from 'react';
-import {ComponentStory, ComponentMeta} from '@storybook/react';
 
-//import { Button } from './Button';
-import {ButtonStatus} from "./ButtonStatus";
+import {ButtonStatus, ButtonStatusType} from "./ButtonStatus";
 import {daysType, tasksValueType} from "./App";
 import {v1} from "uuid";
+import './App.css';
 
-// More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export
+
 export default {
-	title: 'ButtonStatus',
+	title: 'ButtonStatusX',
 	component: ButtonStatus,
 	// More on argTypes: https://storybook.js.org/docs/react/api/argtypes
-	argTypes: {
-		backgroundColor: {control: 'color'},
-	},
+
 }
-//as ComponentMeta<typeof ButtonStatusType>;
 
-export const ButtonStatusX = () => {
-	const mondayID = v1()
-	const tuesdayID = v1()
-	const wednesdayID = v1()
-	const thursdayID = v1()
-	const fridayID = v1()
-	const saturdayID = v1()
-	const sundayID = v1()
+const mondayID = v1()
+const tuesdayID = v1()
+const wednesdayID = v1()
+const thursdayID = v1()
+const fridayID = v1()
+const saturdayID = v1()
+const sundayID = v1()
 
+
+export const ButtonStatusX: React.FC<ButtonStatusType> = (
+	{
+		//onCLickButtonStatusHandle,
+		// dayID,
+		// filter
+
+	}
+) => {
+	// let ButtonStyleALL = filter === `all` ? `active` : ``
+	// let ButtonStyleCompleted = filter === `completed` ? `active` : ``
+	// let ButtonStyleUnCompleted = filter === `uncompleted` ? `active` : ``
 	const [days, setDays] = useState<daysType[]>([
 			{id: mondayID, title: `Monday`, filter: "all"},
 			{id: tuesdayID, title: `Tuesday`, filter: "all"},
@@ -36,16 +43,43 @@ export const ButtonStatusX = () => {
 			{id: sundayID, title: `Saturday`, filter: "all"},
 		]
 	)
+	const [filter, setFilter] = useState<tasksValueType>(`all`)
 
 	function sortTitlesOnButtonStatus(dayID: string, value: tasksValueType) {
 		setDays([...days.map(el => el.id === dayID
 			? {...el, filter: value}
 			: el)])
 	}
-	return <ButtonStatus
-		filter="all"
-		onCLickButtonStatusHandle={() => sortTitlesOnButtonStatus(sundayID, 'all')}
-	dayID={sundayID}/>
+
+	function onCLickButtonStatusHandle(dayID: string, value: tasksValueType) {
+		//sortTitlesOnButtonStatus(dayID, value)
+		setFilter(value)
+	}
+
+	return (<>
+			{/*<button onClick={() => onCLickButtonStatusHandle(dayID, `all`)}*/}
+			{/*				className={ButtonStyleALL}>*/}
+			{/*	all*/}
+			{/*</button>*/}
+			{/*<button onClick={() => onCLickButtonStatusHandle(dayID, `completed`)}*/}
+			{/*				className={ButtonStyleCompleted}>*/}
+			{/*	completed*/}
+			{/*</button>*/}
+			{/*<button onClick={() => onCLickButtonStatusHandle(dayID, `uncompleted`)}*/}
+			{/*				className={ButtonStyleUnCompleted}>*/}
+			{/*	uncompleted*/}
+			{/*</button>*/}
+
+			<ButtonStatus
+				filter={filter}
+				onCLickButtonStatusHandle={onCLickButtonStatusHandle}
+				dayID={`dayID-dfgdfgdf`}
+			/>
+
+		</>
+
+	)
+
 
 }
 
