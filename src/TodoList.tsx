@@ -1,5 +1,6 @@
 import React, {ChangeEvent, useState} from 'react';
 import {tasksType, tasksValueType} from "./App";
+import {ButtonStatus} from "./ButtonStatus";
 
 type TodoListType = {
 	weekTitle: string
@@ -8,7 +9,7 @@ type TodoListType = {
 	changeTitleStatus: (dayID: string, taskID: string, isDone: boolean) => void
 	removeTitle: (dayID: string, taskID: string) => void
 	sortTitlesOnButtonStatus: (dayID: string, value: tasksValueType) => void
-	filter: string
+	filter: tasksValueType
 	dayID: string
 	removeDay: (dayID: string) => void
 }
@@ -85,7 +86,7 @@ const TodoList: React.FC<TodoListType> = ({
 			<input type={"text"} value={title}
 						 onChange={onChangeInputHandle}
 						 onKeyPress={onKeyPressInputHandle}
-						 onBlur={onBlurInputHandle}
+						 // onBlur={onBlurInputHandle}
 						 className={InputStyle}
 			/>
 			<button onClick={onCLickButtonHandle}>+</button>
@@ -114,18 +115,23 @@ const TodoList: React.FC<TodoListType> = ({
 				)
 			})}
 
-			<button onClick={() => onCLickButtonStatusHandle(dayID, `all`)}
-							className={ButtonStyleALL}>
-				all
-			</button>
-			<button onClick={() => onCLickButtonStatusHandle(dayID, `completed`)}
-							className={ButtonStyleCompleted}>
-				completed
-			</button>
-			<button onClick={() => onCLickButtonStatusHandle(dayID, `uncompleted`)}
-							className={ButtonStyleUnCompleted}>
-				uncompleted
-			</button>
+			{/*<button onClick={() => onCLickButtonStatusHandle(dayID, `all`)}*/}
+			{/*				className={ButtonStyleALL}>*/}
+			{/*	all*/}
+			{/*</button>*/}
+			{/*<button onClick={() => onCLickButtonStatusHandle(dayID, `completed`)}*/}
+			{/*				className={ButtonStyleCompleted}>*/}
+			{/*	completed*/}
+			{/*</button>*/}
+			{/*<button onClick={() => onCLickButtonStatusHandle(dayID, `uncompleted`)}*/}
+			{/*				className={ButtonStyleUnCompleted}>*/}
+			{/*	uncompleted*/}
+			{/*</button>*/}
+
+			<ButtonStatus onCLickButtonStatusHandle={onCLickButtonStatusHandle}
+										dayID={dayID}
+										filter={filter}/>
+
 
 
 		</div>
