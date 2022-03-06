@@ -23,9 +23,9 @@ export const ButtonStatusX: React.FC<ButtonStatusType> = () => {
 	}
 
 	return (<ButtonStatus
-			filter={filter}
-			onCLickButtonStatusHandle={onCLickButtonStatusHandle}
-			dayID={`dayID-хардкор`}
-		/>
+				filter={filter}
+				onCLickButtonStatusHandle={onCLickButtonStatusHandle}
+				dayID={`dayID-хардкор`}
+			/>
 	)
 }

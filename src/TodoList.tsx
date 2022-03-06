@@ -61,7 +61,7 @@ const TodoList: React.FC<TodoListType> = ({
 		sortTitlesOnButtonStatus(dayID, value)
 	}
 
-	console.log(61, filter)
+	//console.log(61, filter)
 	let ButtonStyleALL = filter === `all` ? `active` : ``
 	let ButtonStyleCompleted = filter === `completed` ? `active` : ``
 	let ButtonStyleUnCompleted = filter === `uncompleted` ? `active` : ``
@@ -115,18 +115,18 @@ const TodoList: React.FC<TodoListType> = ({
 				)
 			})}
 
-			<button onClick={() => onCLickButtonStatusHandle(dayID, `all`)}
-							className={ButtonStyleALL}>
-				all
-			</button>
-			<button onClick={() => onCLickButtonStatusHandle(dayID, `completed`)}
-							className={ButtonStyleCompleted}>
-				completed
-			</button>
-			<button onClick={() => onCLickButtonStatusHandle(dayID, `uncompleted`)}
-							className={ButtonStyleUnCompleted}>
-				uncompleted
-			</button>
+			{/*<button onClick={() => onCLickButtonStatusHandle(dayID, `all`)}*/}
+			{/*				className={ButtonStyleALL}>*/}
+			{/*	all*/}
+			{/*</button>*/}
+			{/*<button onClick={() => onCLickButtonStatusHandle(dayID, `completed`)}*/}
+			{/*				className={ButtonStyleCompleted}>*/}
+			{/*	completed*/}
+			{/*</button>*/}
+			{/*<button onClick={() => onCLickButtonStatusHandle(dayID, `uncompleted`)}*/}
+			{/*				className={ButtonStyleUnCompleted}>*/}
+			{/*	uncompleted*/}
+			{/*</button>*/}
 
 			<ButtonStatus onCLickButtonStatusHandle={onCLickButtonStatusHandle}
 										dayID={dayID}
