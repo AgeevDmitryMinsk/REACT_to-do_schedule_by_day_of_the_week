@@ -1,6 +1,8 @@
-import React, {ChangeEvent, useState} from 'react';
+import React from 'react';
 import {tasksType, tasksValueType} from "./App";
 import {ButtonStatus} from "./ButtonStatus";
+import AddItemForm from "./components/AddItemForm";
+import {EditableSpan} from "./EditableSpan";
 
 type TodoListType = {
 	weekTitle: string
@@ -12,6 +14,8 @@ type TodoListType = {
 	filter: tasksValueType
 	dayID: string
 	removeDay: (dayID: string) => void
+	onChangeTaskTitle: (dayID:string, taskID:string, newTitle:string)=> void
+	onChangeWeekDayTitle: (dayID:string, newWeekDayTitle:string) =>void
 }
 
 const TodoList: React.FC<TodoListType> = ({
@@ -23,76 +27,58 @@ const TodoList: React.FC<TodoListType> = ({
 																						sortTitlesOnButtonStatus,
 																						filter,
 																						dayID,
-																						removeDay
+																						removeDay,
+																						onChangeTaskTitle,
+																						onChangeWeekDayTitle
 																					}) => {
 
-	const [title, setTitle] = useState(``)
-	const [error, setError] = useState(``)
 
-	function onCLickButtonHandle() {
-		if (title.trim() !== ``) {
-			addTitle(dayID, title.trim())
-			setTitle(``)
-		} else {
-			setError(`please, enter some test`)
-		}
-
-	}
-
-	function onChangeInputHandle(e: ChangeEvent<HTMLInputElement>) {
-		console.log(e.currentTarget.value)
-		let title = e.currentTarget.value
-		setTitle(title)
-		if (title === ``) {
-			setError(`please, enter some test`)
-		} else {
-			setError(``)
-		}
-	}
-
-	function onKeyPressInputHandle(e: React.KeyboardEvent<HTMLInputElement>) {
-		if (e.key === `Enter`) {
-			onCLickButtonHandle()
-		}
-	}
 
 
 	function onCLickButtonStatusHandle(dayID: string, value: tasksValueType) {
 		sortTitlesOnButtonStatus(dayID, value)
 	}
 
-	//console.log(61, filter)
 	let ButtonStyleALL = filter === `all` ? `active` : ``
 	let ButtonStyleCompleted = filter === `completed` ? `active` : ``
 	let ButtonStyleUnCompleted = filter === `uncompleted` ? `active` : ``
 
-	let InputStyle = (error) ? `errorInput` : ``
 
 	function onClickRemoveDayHandler() {
 		console.log(69)
 		removeDay(dayID)
 	}
 
-	function onBlurInputHandle(e: React.FocusEvent<HTMLInputElement, Element>) {
-		onCLickButtonHandle()
+	// function addTaskHandler(newTaskTitle:string) {
+	// 	addTitle(dayID, newTaskTitle)
+	// }
+
+	function onChangeWeekDayTitleHandler(newWeekDayTitle:string) {
+		onChangeWeekDayTitle(dayID, newWeekDayTitle)
 	}
 
 	return (
 		<div>
 			<div>
-				{weekTitle}
+				<EditableSpan title={weekTitle} onChange={onChangeWeekDayTitleHandler}/>
+				{/*{weekTitle}*/}
 				<button onClick={onClickRemoveDayHandler}>X</button>
 			</div>
-			<input type={"text"} value={title}
-						 onChange={onChangeInputHandle}
-						 onKeyPress={onKeyPressInputHandle}
-						 // onBlur={onBlurInputHandle}
-						 className={InputStyle}
-			/>
-			<button onClick={onCLickButtonHandle}>+</button>
-			<div className={`errorStyle`}>
-				{error}
-			</div>
+
+			{/*<AddItemForm addItem={addTaskHandler}/>*/}
+			<AddItemForm addItem={(newTaskTitle)=>addTitle(dayID, newTaskTitle)}/>
+			<>
+				{/*<input type={"text"} value={title}*/}
+				{/*			 onChange={onChangeInputHandle}*/}
+				{/*			 onKeyPress={onKeyPressInputHandle}*/}
+				{/*			 // onBlur={onBlurInputHandle}*/}
+				{/*			 className={InputStyle}*/}
+				{/*/>*/}
+				{/*<button onClick={onCLickButtonHandle}>+</button>*/}
+				{/*<div className={`errorStyle`}>*/}
+				{/*	{error}*/}
+				{/*</div>*/}
+			</>
 			{tasks.map(el => {
 				function onChangeCheckBoxHandle() {
 					console.log(43)
@@ -104,9 +90,14 @@ const TodoList: React.FC<TodoListType> = ({
 					removeTitle(dayID, el.id)
 				}
 
+				function onChangeTitleHandler(newTitle:string) {
+										onChangeTaskTitle(dayID, el.id, newTitle)
+				}
+
 				return (
 					<div key={el.id} className={`tasksStyle`}>
-						{el.title}
+						{/*<span>{el.title}</span>*/}
+						<EditableSpan title={el.title} onChange={onChangeTitleHandler}/>
 						<input type="checkbox" checked={el.isDone} onChange={onChangeCheckBoxHandle}/>
 						<button onClick={onClickRemoveHandleButton}>X</button>
 					</div>
@@ -140,3 +131,4 @@ const TodoList: React.FC<TodoListType> = ({
 };
 
 export default TodoList;
+

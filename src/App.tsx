@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import './App.css';
 import {v1} from "uuid";
 import TodoList from "./TodoList";
+import AddItemForm from "./components/AddItemForm";
 
 export type tasksType = {
 	id: string
@@ -19,13 +20,13 @@ export type tasksValueType = `all` | `completed` | `uncompleted`
 
 
 function App() {
-	const mondayID = `gdfgdfgdfg1`//v1()
-	const tuesdayID = `gdfgdfgdfg2`//v1()
-	const wednesdayID = `gdfgdfgdfg3`//v1()
-	const thursdayID = `gdfgdfgdfg4`//v1()
-	const fridayID = `gdfgdfgdfg5`//v1()
-	const saturdayID =`gdfgdfgdfg6`// v1()
-	const sundayID = `gdfgdfgdfg7`//v1()
+	const mondayID = `mondayID___v1()_with_localStarage`//v1()
+	const tuesdayID = `tuesdayID___v1()_with_localStarage`//v1()
+	const wednesdayID = `wednesdayID___v1()_with_localStarage`//v1()
+	const thursdayID = `thursdayID___v1()_with_localStarage`//v1()
+	const fridayID = `fridayID___v1()_with_localStarage`//v1()
+	const saturdayID =`saturdayID___v1()_with_localStarage`// v1()
+	const sundayID = `sundayID___v1()_with_localStarage`//v1()
 
 
 	const initialTasks: { [key: string]: tasksType[] } = {
@@ -75,22 +76,22 @@ function App() {
 			{id: v1(), title: "41th  _ job ", isDone: false},
 		],
 		[saturdayID]: [
-			{id: v1(), title: "25th  _ job ", isDone: true},
-			{id: v1(), title: "26th  _ job ", isDone: false},
-			{id: v1(), title: "27th  _ job ", isDone: false},
-			{id: v1(), title: "28th  _ job ", isDone: false},
-			{id: v1(), title: "29th  _ job ", isDone: false},
-			{id: v1(), title: "30th  _ job ", isDone: false},
-			{id: v1(), title: "31th  _ job ", isDone: false},
-		],
-		[sundayID]: [
-			{id: v1(), title: "42th  _ job ", isDone: false},
-			{id: v1(), title: "43th  _ job ", isDone: false},
-			{id: v1(), title: "44th  _ job ", isDone: false},
-			{id: v1(), title: "45th  _ job ", isDone: false},
+			{id: v1(), title: "45th  _ job ", isDone: true},
 			{id: v1(), title: "46th  _ job ", isDone: false},
 			{id: v1(), title: "47th  _ job ", isDone: false},
 			{id: v1(), title: "48th  _ job ", isDone: false},
+			{id: v1(), title: "49th  _ job ", isDone: false},
+			{id: v1(), title: "50th  _ job ", isDone: false},
+			{id: v1(), title: "51th  _ job ", isDone: false},
+		],
+		[sundayID]: [
+			{id: v1(), title: "52th  _ job ", isDone: false},
+			{id: v1(), title: "53th  _ job ", isDone: false},
+			{id: v1(), title: "54th  _ job ", isDone: false},
+			{id: v1(), title: "55th  _ job ", isDone: false},
+			{id: v1(), title: "56th  _ job ", isDone: false},
+			{id: v1(), title: "57th  _ job ", isDone: false},
+			{id: v1(), title: "58th  _ job ", isDone: false},
 		],
 	}
 
@@ -119,12 +120,12 @@ function App() {
 
 
 	useEffect(()=>{
-		let tasksTakenFromLocalStoreage = localStorage.getItem('tasksLocalStorage')
-		if (tasksTakenFromLocalStoreage) {
-			let parsedtasks = JSON.parse(tasksTakenFromLocalStoreage)
+		let tasksTakenFromLocalStorageString = localStorage.getItem('tasksLocalStorage')
+		if (tasksTakenFromLocalStorageString) {
+			let parsedtasksObject = JSON.parse(tasksTakenFromLocalStorageString)
 
-				console.log(parsedtasks)
-				setTasks(parsedtasks)
+				console.log(parsedtasksObject)
+				setTasks(parsedtasksObject)
 
 		}
 	}, [])
@@ -133,13 +134,14 @@ function App() {
 
 
 	useEffect(()=>{
-		let daysTakenFromLocalStorage = localStorage.getItem(`daysLocalStorage`)
-		if (daysTakenFromLocalStorage) {
-			let parsedDays = JSON.parse(daysTakenFromLocalStorage)
-			console.log(parsedDays)
-			setDays(parsedDays)
+		let daysTakenFromLocalStorageString = localStorage.getItem(`daysLocalStorage`)
+		if (daysTakenFromLocalStorageString) {
+			let parsedDaysArray = JSON.parse(daysTakenFromLocalStorageString)
+			console.log(parsedDaysArray)
+			setDays(parsedDaysArray)
 		}
 	}, [])
+
 	useEffect(()=>localStorage.setItem(`daysLocalStorage`, JSON.stringify(days) ), [days])
 
 	function changeTitleStatus(dayID: string, taskID: string, isDoneTask: boolean) {
@@ -171,10 +173,32 @@ function App() {
 	}
 
 
+	function addNewTodoList(newTodoListTitle:string) {
+		let newTodoListID = v1()
+		setDays([...days, {id: newTodoListID, title: newTodoListTitle, filter: "all"},])
+		setTasks({...tasks, [newTodoListID]:[]})
+	}
+
+	function onChangeTaskTitle(dayID:string, taskID:string, newTitle:string) {
+		console.log(newTitle)
+		setTasks({...tasks, [dayID]: tasks[dayID].map(el => el.id === taskID
+				? {...el, title: newTitle}
+				: el)})
+	}
+
+	function onChangeWeekDayTitle(dayID:string, newWeekDayTitle:string) {
+		console.log(newWeekDayTitle)
+		setDays([...days.map(el=> el.id===dayID
+		?{...el, title: newWeekDayTitle}
+		:el)])
+	}
+
 	return (
 
 		<div className="App">
 			<h1> Todo Week Schedule</h1>
+
+			<AddItemForm addItem={addNewTodoList}/>
 
 			<div className="days_container">
 				{days.map(el => {
@@ -194,6 +218,9 @@ function App() {
 								sortTitlesOnButtonStatus={sortTitlesOnButtonStatus}
 								filter={el.filter}
 								removeDay={removeDay}
+								onChangeTaskTitle={onChangeTaskTitle}
+								onChangeWeekDayTitle={onChangeWeekDayTitle}
+
 							/>
 						</div>
 					)
