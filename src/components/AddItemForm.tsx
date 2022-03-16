@@ -1,7 +1,9 @@
 import React, {ChangeEvent, useState} from 'react';
+import {Button, IconButton, TextField} from "@mui/material";
+import {AddBox, Fingerprint} from "@mui/icons-material";
 
 type AddItemFormPropsType = {
-	addItem: (newUnivTitle:string)=>void
+	addItem: (newUnivTitle: string) => void
 }
 
 const AddItemForm: React.FC<AddItemFormPropsType> = ({addItem}) => {
@@ -24,7 +26,7 @@ const AddItemForm: React.FC<AddItemFormPropsType> = ({addItem}) => {
 		let title = e.currentTarget.value
 		setTitle(title)
 		if (title === ``) {
-			setError(`please, enter some test`)
+			setError(`please, enter some text`)
 		} else {
 			setError(``)
 		}
@@ -44,17 +46,19 @@ const AddItemForm: React.FC<AddItemFormPropsType> = ({addItem}) => {
 
 	return (
 		<>
-			<input type={"text"} value={title}
-						 onChange={onChangeInputHandle}
-						 onKeyPress={onKeyPressInputHandle}
-				// onBlur={onBlurInputHandle}
-						 className={InputStyle}
+			<TextField label="Title"
+								 value={title}
+								 color={"info"}
+								 onChange={onChangeInputHandle}
+								 onKeyPress={onKeyPressInputHandle}
+								 error={!!error}
+								 helperText={error}
+								 // onBlur={onBlurInputHandle}
+								 //className={InputStyle}
 			/>
-			<button onClick={onCLickButtonHandle}>+</button>
-			<div className={`errorStyle`}>
-				{error}
-			</div>
-
+			<IconButton onClick={onCLickButtonHandle}
+									color={"primary"}
+			><AddBox/></IconButton>
 		</>
 	);
 };

@@ -1,5 +1,6 @@
 import React from 'react';
 import {tasksValueType} from "./App";
+import {Button} from "@mui/material";
 
 export type ButtonStatusType = {
 	onCLickButtonStatusHandle: (dayID: string, valueB: tasksValueType) => void
@@ -10,30 +11,30 @@ export type ButtonStatusType = {
 export const ButtonStatus: React.FC<ButtonStatusType> =
 	({
 		 onCLickButtonStatusHandle,
-		dayID,
+		 dayID,
 		 filter
 
 	 }) => {
 
-		let ButtonStyleALL = filter === `all` ? `active` : ``
-		let ButtonStyleCompleted = filter === `completed` ? `active` : ``
-		let ButtonStyleUnCompleted = filter === `uncompleted` ? `active` : ``
 
 		return (
 			<div>
 
-				<button onClick={() => onCLickButtonStatusHandle(dayID, `all`)}
-								className={ButtonStyleALL}>
+				<Button onClick={() => onCLickButtonStatusHandle(dayID, `all`)}
+								variant={filter === `all` ? `contained` : "outlined"}
+				>
 					all
-				</button>
-				<button onClick={() => onCLickButtonStatusHandle(dayID, `completed`)}
-								className={ButtonStyleCompleted}>
+				</Button>
+				<Button onClick={() => onCLickButtonStatusHandle(dayID, `completed`)}
+								variant={filter === `completed` ? `contained` : `outlined`}
+								style={{margin:"0 5px"}}
+				>
 					completed
-				</button>
-				<button onClick={() => onCLickButtonStatusHandle(dayID, `uncompleted`)}
-								className={ButtonStyleUnCompleted}>
+				</Button>
+				<Button onClick={() => onCLickButtonStatusHandle(dayID, `uncompleted`)}
+								variant={filter === `uncompleted` ? `contained` : `outlined`}>
 					uncompleted
-				</button>
+				</Button>
 
 			</div>
 		);

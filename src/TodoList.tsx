@@ -3,6 +3,9 @@ import {tasksType, tasksValueType} from "./App";
 import {ButtonStatus} from "./ButtonStatus";
 import AddItemForm from "./components/AddItemForm";
 import {EditableSpan} from "./EditableSpan";
+import {Checkbox, IconButton} from "@mui/material";
+import {Delete} from "@mui/icons-material";
+import DeleteIcon from '@mui/icons-material/Delete';
 
 type TodoListType = {
 	weekTitle: string
@@ -62,7 +65,13 @@ const TodoList: React.FC<TodoListType> = ({
 			<div>
 				<EditableSpan title={weekTitle} onChange={onChangeWeekDayTitleHandler}/>
 				{/*{weekTitle}*/}
-				<button onClick={onClickRemoveDayHandler}>X</button>
+				{/*<button onClick={onClickRemoveDayHandler}>X</button>*/}
+
+				<IconButton onClick={onClickRemoveDayHandler} aria-label="delete" size="medium" color={"primary"}>
+					<DeleteIcon />
+				</IconButton>
+
+
 			</div>
 
 			{/*<AddItemForm addItem={addTaskHandler}/>*/}
@@ -97,9 +106,18 @@ const TodoList: React.FC<TodoListType> = ({
 				return (
 					<div key={el.id} className={`tasksStyle`}>
 						{/*<span>{el.title}</span>*/}
+
+						<Checkbox  checked={el.isDone}
+											 onChange={onChangeCheckBoxHandle}
+											 color={"info"}
+						/>
 						<EditableSpan title={el.title} onChange={onChangeTitleHandler}/>
-						<input type="checkbox" checked={el.isDone} onChange={onChangeCheckBoxHandle}/>
-						<button onClick={onClickRemoveHandleButton}>X</button>
+
+
+						<IconButton onClick={onClickRemoveHandleButton} aria-label="delete" size="medium" color={"primary"}>
+							<DeleteIcon />
+						</IconButton>
+
 					</div>
 
 
