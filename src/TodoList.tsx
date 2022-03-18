@@ -17,7 +17,7 @@ type TodoListType = {
 	filter: tasksValueType
 	dayID: string
 	removeDay: (dayID: string) => void
-	onChangeTaskTitle: (dayID:string, taskID:string, newTitle:string)=> void
+	onChangeTaskTitleName: (dayID:string, taskID:string, newTitle:string)=> void
 	onChangeWeekDayTitle: (dayID:string, newWeekDayTitle:string) =>void
 }
 
@@ -31,7 +31,7 @@ const TodoList: React.FC<TodoListType> = ({
 																						filter,
 																						dayID,
 																						removeDay,
-																						onChangeTaskTitle,
+																						onChangeTaskTitleName,
 																						onChangeWeekDayTitle
 																					}) => {
 
@@ -100,7 +100,7 @@ const TodoList: React.FC<TodoListType> = ({
 				}
 
 				function onChangeTitleHandler(newTitle:string) {
-										onChangeTaskTitle(dayID, el.id, newTitle)
+										onChangeTaskTitleName(dayID, el.id, newTitle)
 				}
 
 				return (

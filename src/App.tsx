@@ -1,9 +1,27 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect,
+	useReducer,
+//	useState
+} from 'react';
 import './App.css';
 import {v1} from "uuid";
 import TodoList from "./TodoList";
 import AddItemForm from "./components/AddItemForm";
 import ButtonAppBar from "./components/ButtonAppBar";
+import {
+	addNewTodoEmptyListAC,
+	addTitleTasksAC,
+	changeTitleStatusAC, onChangeTaskTitleNameAC,
+	//onChangeTaskTitleNameAC,
+	removeTitleTasksAC, tasksLocalStorageAC,
+	tasksReducer
+} from "./reducers/tasksReducer";
+import {
+	addNewTodoListTitleAC, daysLocalStorageAC,
+	daysReducer,
+	onChangeWeekDayTitleAC,
+	removeDayAC,
+	sortTitlesOnButtonStatusAC
+} from "./reducers/daysReducer";
 
 export type tasksType = {
 	id: string
@@ -96,10 +114,11 @@ function App() {
 		],
 	}
 
+	//const [tasks, setTasks] = useState<{ [key: string]: tasksType[] }>(initialTasks)
+	const [tasks, tasksDispatch] = useReducer(tasksReducer, initialTasks)
 
-	const [tasks, setTasks] = useState<{ [key: string]: tasksType[] }>(initialTasks)
-
-	const [days, setDays] = useState<daysType[]>([
+	// const [days, setDays] = useState<daysType[]>([
+	const [days, daysDispatch] = useReducer(daysReducer, ([
 			{id: mondayID, title: `Monday`, filter: "all"},
 			{id: tuesdayID, title: `Tuesday`, filter: "all"},
 			{id: wednesdayID, title: `Wednesday`, filter: "all"},
@@ -108,93 +127,93 @@ function App() {
 			{id: saturdayID, title: `Saturday`, filter: "all"},
 			{id: sundayID, title: `Saturday`, filter: "all"},
 		]
-	)
+	))
 
 	//const [filter, setFilter] = useState<tasksValueType>(`all`) //- убрали/переместили в 87ю строку el.filter!!!
 
-
-	function addTitle(dayID: string, inpTitle: string) {
-		//setTasks([...tasks, {id: v1(), title: inpTitle, isDone: false},])
-		setTasks({...tasks, [dayID]: [...tasks[dayID], {id: v1(), title: inpTitle, isDone: false}]})
-	}
-
-
+	//useEffect for tasks if 1st start
 	useEffect(() => {
 		let tasksTakenFromLocalStorageString = localStorage.getItem('tasksLocalStorage')
 		if (tasksTakenFromLocalStorageString) {
 			let parsedtasksObject = JSON.parse(tasksTakenFromLocalStorageString)
-
 			console.log(parsedtasksObject)
-			setTasks(parsedtasksObject)
-
+			//setTasks(parsedtasksObject)
+			tasksDispatch(tasksLocalStorageAC(parsedtasksObject))
 		}
 	}, [])
 
+	//useEffect for updated tasks (not for 1st start, in other words if localStorage already updated)
 	useEffect(() => localStorage.setItem(`tasksLocalStorage`, JSON.stringify(tasks)), [tasks])
 
-
+	//useEffect for days if 1st start
 	useEffect(() => {
 		let daysTakenFromLocalStorageString = localStorage.getItem(`daysLocalStorage`)
 		if (daysTakenFromLocalStorageString) {
 			let parsedDaysArray = JSON.parse(daysTakenFromLocalStorageString)
 			console.log(parsedDaysArray)
-			setDays(parsedDaysArray)
+			//setDays(parsedDaysArray)  !!!!!!!!
+			daysDispatch(daysLocalStorageAC(parsedDaysArray))
 		}
 	}, [])
 
+	//useEffect for updated days (not for 1st start, in other words if localStorage already updated)
 	useEffect(() => localStorage.setItem(`daysLocalStorage`, JSON.stringify(days)), [days])
 
-	function changeTitleStatus(dayID: string, taskID: string, isDoneTask: boolean) {
-		//setTasks([...tasks.map(el => el.id === taskID ? {...el, isDone: !isDoneTask} : el)])
-		setTasks({
-			...tasks, [dayID]: tasks[dayID].map(el => el.id === taskID
-				? {...el, isDone: !isDoneTask}
-				: el)
-		})
+
+	function addTitle(dayID: string, inpTitle: string) {
+		//setTasks([...tasks, {id: v1(), title: inpTitle, isDone: false},])
+		let newID = v1()
+		tasksDispatch(addTitleTasksAC(dayID, inpTitle, newID))
 	}
 
 	function removeTitle(dayID: string, taskID: string) {
-		//setTasks([...tasks.filter(el => el.id !== taskID)])
-		console.log(60, {[dayID]: tasks[dayID]})
-		setTasks({...tasks, [dayID]: tasks[dayID].filter(el => el.id !== taskID)})
+		//setTasks({...tasks, [dayID]: tasks[dayID].filter(el => el.id !== taskID)})
+		tasksDispatch(removeTitleTasksAC(dayID, taskID))
 	}
 
+	function changeTitleStatus(dayID: string, taskID: string, isDoneTask: boolean) {
+		//setTasks({...tasks, [dayID]: tasks[dayID].map(el => el.id === taskID ? {...el, isDone: !isDoneTask}: el)})
+		tasksDispatch(changeTitleStatusAC(dayID, taskID, isDoneTask))
+	}
+
+	function addNewTodoList(newTodoListTitle: string) { // должно быть 2 set!!! setDays+setTasks !!!!!
+		let newTodoListID = v1()
+		console.log(`newTodoListTitle in App`, newTodoListTitle)
+
+		//setTasks({...tasks, [newTodoListID]: []})
+		tasksDispatch(addNewTodoEmptyListAC(newTodoListID))
+
+		//setDays([...days, {id: newTodoListID, title: newTodoListTitle, filter: "all"},])
+		daysDispatch(addNewTodoListTitleAC(newTodoListID, newTodoListTitle))
+	}
+
+	function onChangeTaskTitleName(dayID: string, taskID: string, newTitle: string) {
+		console.log(newTitle)
+		//setTasks({...tasks, [dayID]: tasks[dayID].map(el => el.id === taskID? {...el, title: newTitle}: el)	})
+		tasksDispatch(onChangeTaskTitleNameAC(dayID, taskID, newTitle))
+	}
+
+
 	function sortTitlesOnButtonStatus(dayID: string, value: tasksValueType) {
-		setDays([...days.map(el => el.id === dayID
-			? {...el, filter: value}
-			: el)])
+		//setDays([...days.map(el => el.id === dayID ? {...el, filter: value} : el)])  !!!!!!
+		daysDispatch(sortTitlesOnButtonStatusAC(dayID, value))
 	}
 
 	function removeDay(dayID: string) {
-		setDays([...days.filter(el => el.id !== dayID)])
+		//setDays([...days.filter(el => el.id !== dayID)])   !!!!!!!
+		daysDispatch(removeDayAC(dayID))
 		//console.log(tasks)
 		delete tasks[dayID]
 		//console.log(tasks)
 	}
 
-
-	function addNewTodoList(newTodoListTitle: string) {
-		let newTodoListID = v1()
-		setDays([...days, {id: newTodoListID, title: newTodoListTitle, filter: "all"},])
-		setTasks({...tasks, [newTodoListID]: []})
-	}
-
-	function onChangeTaskTitle(dayID: string, taskID: string, newTitle: string) {
-		console.log(newTitle)
-		setTasks({
-			...tasks, [dayID]: tasks[dayID].map(el => el.id === taskID
-				? {...el, title: newTitle}
-				: el)
-		})
-	}
-
 	function onChangeWeekDayTitle(dayID: string, newWeekDayTitle: string) {
 		console.log(newWeekDayTitle)
-		setDays([...days.map(el => el.id === dayID
-			? {...el, title: newWeekDayTitle}
-			: el)])
+		// setDays([...days.map(el => el.id === dayID ? {...el, title: newWeekDayTitle} : el)]) !!!!
+		daysDispatch(onChangeWeekDayTitleAC(dayID, newWeekDayTitle))
 	}
 
+	console.log(days,'days')
 	return (
 
 		<div className="App">
@@ -224,7 +243,7 @@ function App() {
 								sortTitlesOnButtonStatus={sortTitlesOnButtonStatus}
 								filter={el.filter}
 								removeDay={removeDay}
-								onChangeTaskTitle={onChangeTaskTitle}
+								onChangeTaskTitleName={onChangeTaskTitleName}
 								onChangeWeekDayTitle={onChangeWeekDayTitle}
 
 							/>

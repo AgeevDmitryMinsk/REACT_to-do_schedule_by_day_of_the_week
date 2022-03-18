@@ -10,6 +10,7 @@ const AddItemForm: React.FC<AddItemFormPropsType> = ({addItem}) => {
 
 	const [title, setTitle] = useState(``)
 	const [error, setError] = useState(``)
+	console.log('title in AddItemForm', title)
 
 	function onCLickButtonHandle() {
 		if (title.trim() !== ``) {
