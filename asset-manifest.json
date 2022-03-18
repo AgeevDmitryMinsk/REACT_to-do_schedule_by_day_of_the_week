@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/REACT_to-do_schedule_by_day_of_the_week/static/css/main.53c31832.css",
-    "main.js": "/REACT_to-do_schedule_by_day_of_the_week/static/js/main.eb94741e.js",
+    "main.js": "/REACT_to-do_schedule_by_day_of_the_week/static/js/main.78b361f6.js",
     "static/js/787.f88aeb16.chunk.js": "/REACT_to-do_schedule_by_day_of_the_week/static/js/787.f88aeb16.chunk.js",
     "index.html": "/REACT_to-do_schedule_by_day_of_the_week/index.html",
     "main.53c31832.css.map": "/REACT_to-do_schedule_by_day_of_the_week/static/css/main.53c31832.css.map",
-    "main.eb94741e.js.map": "/REACT_to-do_schedule_by_day_of_the_week/static/js/main.eb94741e.js.map",
+    "main.78b361f6.js.map": "/REACT_to-do_schedule_by_day_of_the_week/static/js/main.78b361f6.js.map",
     "787.f88aeb16.chunk.js.map": "/REACT_to-do_schedule_by_day_of_the_week/static/js/787.f88aeb16.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.53c31832.css",
-    "static/js/main.eb94741e.js"
+    "static/js/main.78b361f6.js"
   ]
 }
