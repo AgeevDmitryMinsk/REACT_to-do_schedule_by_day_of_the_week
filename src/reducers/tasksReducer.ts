@@ -14,7 +14,7 @@ export const tasksReducer = (state: { [key: string]: tasksType[] }, action: task
 			return {...state}
 		}
 		case "REMOVE-TITLE_TASKS": {
-			console.log("REMOVE-TITLE_TASKS")
+			//console.log("REMOVE-TITLE_TASKS")
 			//setTasks({...tasks, [dayID]: tasks[dayID].filter(el => el.id !== taskID)})
 			const dayTasks = state[action.payload.dayID]
 
