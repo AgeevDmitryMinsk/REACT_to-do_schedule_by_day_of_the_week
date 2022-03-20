@@ -223,7 +223,7 @@ function App() {
 		<div className="App">
 			<ButtonAppBar/>
 
-			<h1> Todo Week Schedule</h1>
+			<h2> Todo Week Schedule + 11 Unit Tests(React/TypeScript)</h2>
 			<div>
 				<AddItemForm addItem={addNewTodoList}/>
 			</div>
