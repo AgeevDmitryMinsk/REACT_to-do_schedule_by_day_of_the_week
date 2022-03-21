@@ -9,7 +9,11 @@ import {
 	tuesdayID,
 	wednesdayID
 } from "../App";
-import {addNewTodoListTitleAC, daysReducer, removeDayAC} from "./daysReducer";
+import {
+//	addNewTodoListTitleAC,
+	daysReducer,
+	//removeDayAC
+} from "./daysReducer";
 import {
 	addNewTodoEmptyListAC,
 	addTitleTasksAC,

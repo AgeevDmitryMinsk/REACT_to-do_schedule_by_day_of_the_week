@@ -16,11 +16,12 @@ import {
 	tasksReducer
 } from "./reducers/tasksReducer";
 import {
-	addNewTodoListTitleAC, daysLocalStorageAC,
+	actions,
+	//addNewTodoListTitleAC, daysLocalStorageAC,
 	daysReducer,
-	onChangeWeekDayTitleAC,
-	removeDayAC,
-	sortTitlesOnButtonStatusAC
+	//onChangeWeekDayTitleAC,
+	//removeDayAC,
+	//sortTitlesOnButtonStatusAC
 } from "./reducers/daysReducer";
 
 export type tasksType = {
@@ -156,7 +157,7 @@ function App() {
 			let parsedDaysArray = JSON.parse(daysTakenFromLocalStorageString)
 			console.log(parsedDaysArray)
 			//setDays(parsedDaysArray)  !!!!!!!!
-			daysDispatch(daysLocalStorageAC(parsedDaysArray))
+			daysDispatch(actions.daysLocalStorageAC(parsedDaysArray))
 		}
 	}, [])
 
@@ -188,7 +189,7 @@ function App() {
 		tasksDispatch(addNewTodoEmptyListAC(newTodoListID))
 
 		//setDays([...days, {id: newTodoListID, title: newTodoListTitle, filter: "all"},])
-		daysDispatch(addNewTodoListTitleAC(newTodoListID, newTodoListTitle))
+		daysDispatch(actions.addNewTodoListTitleAC(newTodoListID, newTodoListTitle))
 	}
 
 	function onChangeTaskTitleName(dayID: string, taskID: string, newTitle: string) {
@@ -200,12 +201,12 @@ function App() {
 
 	function sortTitlesOnButtonStatus(dayID: string, value: tasksValueType) {
 		//setDays([...days.map(el => el.id === dayID ? {...el, filter: value} : el)])  !!!!!!
-		daysDispatch(sortTitlesOnButtonStatusAC(dayID, value))
+		daysDispatch(actions.sortTitlesOnButtonStatusAC(dayID, value))
 	}
 
 	function removeDay(dayID: string) {
 		//setDays([...days.filter(el => el.id !== dayID)])   !!!!!!!
-		daysDispatch(removeDayAC(dayID))
+		daysDispatch(actions.removeDayAC(dayID))
 		//console.log(tasks)
 		delete tasks[dayID]
 		//console.log(tasks)
@@ -214,7 +215,7 @@ function App() {
 	function onChangeWeekDayTitle(dayID: string, newWeekDayTitle: string) {
 		console.log(newWeekDayTitle)
 		// setDays([...days.map(el => el.id === dayID ? {...el, title: newWeekDayTitle} : el)]) !!!!
-		daysDispatch(onChangeWeekDayTitleAC(dayID, newWeekDayTitle))
+		daysDispatch(actions.onChangeWeekDayTitleAC(dayID, newWeekDayTitle))
 	}
 
 	console.log(days,'days')

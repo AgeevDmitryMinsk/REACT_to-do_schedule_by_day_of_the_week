@@ -29,57 +29,108 @@ export const daysReducer = (state: daysType[], action: daysReducerType): Array<d
 		}
 
 
+
+
 		default:
 			return state
 	}
 
 }
 
-type daysReducerType = addNewTodoListACType | sortTitlesOnButtonStatusACType | removeDayACType | onChangeWeekDayTitleACType | daysLocalStorageACType
+//type daysReducerType = addNewTodoListACType | sortTitlesOnButtonStatusACType | removeDayACType | onChangeWeekDayTitleACType | daysLocalStorageACType
+type daysReducerType = ReturnType<PropertiesType<typeof actions>>
+type PropertiesType<T> = T extends {[key: string]: infer U} ? U:never
 
-export type addNewTodoListACType = ReturnType<typeof addNewTodoListTitleAC>
-export const addNewTodoListTitleAC = (newTodoListID: string, newTodoListTitle: string) => {
-	return {
-		title: "ADD-NEW-TODO-LIST",
-		payload: {
-			newTodoListID, newTodoListTitle
-		}
-	} as const
-}
-export type sortTitlesOnButtonStatusACType = ReturnType<typeof sortTitlesOnButtonStatusAC>
-export const sortTitlesOnButtonStatusAC = (dayID: string, value: tasksValueType) => {
-	return {
-		title: "SORT-TITLES-ON-BUTTON-STATUS",
-		payload: {
-			dayID, value
-		}
-	} as const
-}
-export type removeDayACType = ReturnType<typeof removeDayAC>
-export const removeDayAC = (dayID: string) => {
-	return {
-		title: "REMOVE-DAY",
-		payload: {
-			dayID
-		}
-	} as const
-}
-export type onChangeWeekDayTitleACType = ReturnType<typeof onChangeWeekDayTitleAC>
-export const onChangeWeekDayTitleAC = (dayID: string, newWeekDayTitle: string) => {
-	return {
-		title: "CHANGE-WEEKDAY-TITLE",
-		payload: {
-			dayID, newWeekDayTitle
-		}
-	} as const
-}
-export type daysLocalStorageACType = ReturnType<typeof daysLocalStorageAC>
-export const daysLocalStorageAC = (days:daysType[]) => {
-	return{
-		title: "CHANGE-LOCAL-STORAGE-DAYS",
-		payload: {
-			days
-		}
+export const actions = {
+	addNewTodoListTitleAC : (newTodoListID: string, newTodoListTitle: string) => {
+		return {
+			title: "ADD-NEW-TODO-LIST",
+			payload: {
+				newTodoListID, newTodoListTitle
+			}
+		} as const
+	},
 
-	} as const
+	sortTitlesOnButtonStatusAC : (dayID: string, value: tasksValueType) => {
+		return {
+			title: "SORT-TITLES-ON-BUTTON-STATUS",
+			payload: {
+				dayID, value
+			}
+		} as const
+	},
+	removeDayAC : (dayID: string) => {
+		return {
+			title: "REMOVE-DAY",
+			payload: {
+				dayID
+			}
+		} as const
+	},
+	onChangeWeekDayTitleAC: (dayID: string, newWeekDayTitle: string) => {
+		return {
+			title: "CHANGE-WEEKDAY-TITLE",
+			payload: {
+				dayID, newWeekDayTitle
+			}
+		} as const
+	},
+	daysLocalStorageAC : (days:daysType[]) => {
+		return{
+			title: "CHANGE-LOCAL-STORAGE-DAYS",
+			payload: {
+				days
+			}
+
+		} as const
+	}
+
+
 }
+
+// export type addNewTodoListACType = ReturnType<typeof addNewTodoListTitleAC>
+// export const addNewTodoListTitleAC = (newTodoListID: string, newTodoListTitle: string) => {
+// 	return {
+// 		title: "ADD-NEW-TODO-LIST",
+// 		payload: {
+// 			newTodoListID, newTodoListTitle
+// 		}
+// 	} as const
+// }
+// export type sortTitlesOnButtonStatusACType = ReturnType<typeof sortTitlesOnButtonStatusAC>
+// export const sortTitlesOnButtonStatusAC = (dayID: string, value: tasksValueType) => {
+// 	return {
+// 		title: "SORT-TITLES-ON-BUTTON-STATUS",
+// 		payload: {
+// 			dayID, value
+// 		}
+// 	} as const
+// }
+// export type removeDayACType = ReturnType<typeof removeDayAC>
+// export const removeDayAC = (dayID: string) => {
+// 	return {
+// 		title: "REMOVE-DAY",
+// 		payload: {
+// 			dayID
+// 		}
+// 	} as const
+// }
+// export type onChangeWeekDayTitleACType = ReturnType<typeof onChangeWeekDayTitleAC>
+// export const onChangeWeekDayTitleAC = (dayID: string, newWeekDayTitle: string) => {
+// 	return {
+// 		title: "CHANGE-WEEKDAY-TITLE",
+// 		payload: {
+// 			dayID, newWeekDayTitle
+// 		}
+// 	} as const
+// }
+// export type daysLocalStorageACType = ReturnType<typeof daysLocalStorageAC>
+// export const daysLocalStorageAC = (days:daysType[]) => {
+// 	return{
+// 		title: "CHANGE-LOCAL-STORAGE-DAYS",
+// 		payload: {
+// 			days
+// 		}
+//
+// 	} as const
+// }

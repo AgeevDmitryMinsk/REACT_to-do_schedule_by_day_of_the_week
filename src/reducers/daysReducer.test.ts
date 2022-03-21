@@ -1,10 +1,4 @@
-import {
-	addNewTodoListTitleAC, daysLocalStorageAC,
-	daysReducer,
-	onChangeWeekDayTitleAC,
-	removeDayAC,
-	sortTitlesOnButtonStatusAC
-} from "./daysReducer";
+import {actions, daysReducer} from "./daysReducer";
 import {
 	daysType,
 	fridayID,
@@ -27,7 +21,7 @@ test('correct day should be removed from the Week Schedule', () => {
 	]
 
 	const endState = daysReducer(startState,
-		removeDayAC(fridayID)
+		actions.removeDayAC(fridayID)
 	)
 
 	expect(endState.length).toBe(6);
@@ -54,7 +48,7 @@ test('correct day todolist should be added', () => {
 
 
 	const endState = daysReducer(startState,
-		addNewTodoListTitleAC(newTodoListID, newDayListTitle)
+		actions.addNewTodoListTitleAC(newTodoListID, newDayListTitle)
 
 	)
 
@@ -81,7 +75,7 @@ test('correct sort Titles On Button Status at the correct day', () => {
 
 
 	const endState = daysReducer(startState,
-		sortTitlesOnButtonStatusAC(sundayID, value_at_endState)
+		actions.sortTitlesOnButtonStatusAC(sundayID, value_at_endState)
 	)
 
 	expect(endState[6].filter).toBe(value_at_endState);
@@ -106,7 +100,7 @@ test('correct Change WeekDay Title at the correct day', () => {
 
 
 	const endState = daysReducer(startState,
-		onChangeWeekDayTitleAC(dayID, newWeekDayTitle)
+		actions.onChangeWeekDayTitleAC(dayID, newWeekDayTitle)
 	)
 
 	expect(endState[2].title).toBe(newWeekDayTitle);
@@ -133,7 +127,7 @@ test('correct days LocalStorage', () => {
 
 
 	const endState = daysReducer(startState,
-		daysLocalStorageAC(days_in_localStorage_Test)
+		actions.daysLocalStorageAC(days_in_localStorage_Test)
 	)
 
 	expect(endState.length).toBe(2);
