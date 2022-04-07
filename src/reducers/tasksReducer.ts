@@ -81,7 +81,7 @@ export const tasksReducer = (
     state: { [key: string]: tasksType[] } = initialState,
     action: tasksReducerType
 ): { [key: string]: tasksType[] } => {
-    switch (action.title) {
+    switch (action.type) {
         case 'ADD-TITLE_TASKS': {
             console.log('ADD-TITLE_TASKS')
             let newTask = {
@@ -171,7 +171,7 @@ export const addTitleTasksAC = (
     newID: string
 ) => {
     return {
-        title: 'ADD-TITLE_TASKS',
+        type: 'ADD-TITLE_TASKS',
         payload: {
             dayID,
             inpTitle,
@@ -184,7 +184,7 @@ export type removeTitleTasksACType = ReturnType<typeof removeTitleTasksAC>
 
 export const removeTitleTasksAC = (dayID: string, taskID: string) => {
     return {
-        title: 'REMOVE-TITLE_TASKS',
+        type: 'REMOVE-TITLE_TASKS',
         payload: {
             dayID,
             taskID,
@@ -199,7 +199,7 @@ export const changeTitleStatusAC = (
     isDoneTask: boolean
 ) => {
     return {
-        title: 'CHANGE-TITLE_TASKS-STATUS',
+        type: 'CHANGE-TITLE_TASKS-STATUS',
         payload: {
             dayID,
             taskID,
@@ -217,7 +217,7 @@ export const onChangeTaskTitleNameAC = (
     newTitle: string
 ) => {
     return {
-        title: 'CHANGE-TITLE_TASKS-NAME',
+        type: 'CHANGE-TITLE_TASKS-NAME',
         payload: {
             dayID,
             taskID,
@@ -229,7 +229,7 @@ export const onChangeTaskTitleNameAC = (
 export type addNewTodoListACType = ReturnType<typeof addNewTodoEmptyListAC>
 export const addNewTodoEmptyListAC = (newTodoListID: string) => {
     return {
-        title: 'ADD-NEW-DAY',
+        type: 'ADD-NEW-DAY',
         payload: {
             newTodoListID,
         },
@@ -239,7 +239,7 @@ export const addNewTodoEmptyListAC = (newTodoListID: string) => {
 export type tasksLocalStorageACType = ReturnType<typeof tasksLocalStorageAC>
 export const tasksLocalStorageAC = (tasks: { [key: string]: tasksType[] }) => {
     return {
-        title: 'CHANGE-LOCAL-STORAGE-TASKS',
+        type: 'CHANGE-LOCAL-STORAGE-TASKS',
         payload: {
             tasks,
         },

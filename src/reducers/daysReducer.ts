@@ -18,7 +18,7 @@ export const daysReducer = (
     state: daysType[] = initialDays,
     action: daysReducerType
 ): Array<daysType> => {
-    switch (action.title) {
+    switch (action.type) {
         case 'ADD-NEW-TODO-LIST': {
             console.log('ADD-NEW-TODO-LIST')
             //setDays([...days, {id: newTodoListID, title: newTodoListTitle, filter: "all"}])
@@ -79,7 +79,7 @@ export const actions = {
         newTodoListTitle: string
     ) => {
         return {
-            title: 'ADD-NEW-TODO-LIST',
+            type: 'ADD-NEW-TODO-LIST',
             payload: {
                 newTodoListID,
                 newTodoListTitle,
@@ -89,7 +89,7 @@ export const actions = {
 
     sortTitlesOnButtonStatusAC: (dayID: string, value: tasksValueType) => {
         return {
-            title: 'SORT-TITLES-ON-BUTTON-STATUS',
+            type: 'SORT-TITLES-ON-BUTTON-STATUS',
             payload: {
                 dayID,
                 value,
@@ -98,7 +98,7 @@ export const actions = {
     },
     removeDayAC: (dayID: string) => {
         return {
-            title: 'REMOVE-DAY',
+            type: 'REMOVE-DAY',
             payload: {
                 dayID,
             },
@@ -106,7 +106,7 @@ export const actions = {
     },
     onChangeWeekDayTitleAC: (dayID: string, newWeekDayTitle: string) => {
         return {
-            title: 'CHANGE-WEEKDAY-TITLE',
+            type: 'CHANGE-WEEKDAY-TITLE',
             payload: {
                 dayID,
                 newWeekDayTitle,
@@ -115,7 +115,7 @@ export const actions = {
     },
     daysLocalStorageAC: (days: daysType[]) => {
         return {
-            title: 'CHANGE-LOCAL-STORAGE-DAYS',
+            type: 'CHANGE-LOCAL-STORAGE-DAYS',
             payload: {
                 days,
             },
