@@ -1,16 +1,10 @@
 import { actions, daysReducer } from './daysReducer'
-import {
-    daysType,
-    fridayID,
-    //initialDays,
-    mondayID,
-    saturdayID,
-    sundayID,
-    tasksValueType,
-    thursdayID,
-    tuesdayID,
-    wednesdayID,
-} from '../App'
+// import {
+//     daysType,
+//
+// } from '../App'
+import {fridayID, mondayID, saturdayID, sundayID, thursdayID, tuesdayID, wednesdayID} from "./tasksReducer";
+import {daysType, tasksValueType} from "../AppWithRedux";
 
 let startState: daysType[]
 

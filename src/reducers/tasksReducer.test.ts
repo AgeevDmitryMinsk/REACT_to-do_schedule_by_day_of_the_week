@@ -1,24 +1,15 @@
-import {
-    fridayID,
-    mondayID,
-    saturdayID,
-    sundayID,
-    tasksType,
-    thursdayID,
-    tuesdayID,
-    wednesdayID,
-} from '../App'
 
 import {
     addNewTodoEmptyListAC,
     addTitleTasksAC,
-    changeTitleStatusAC,
+    changeTitleStatusAC, fridayID, mondayID,
     onChangeTaskTitleNameAC,
-    removeTitleTasksAC,
+    removeTitleTasksAC, saturdayID, sundayID,
     tasksLocalStorageAC,
-    tasksReducer,
+    tasksReducer, thursdayID, tuesdayID, wednesdayID,
 } from './tasksReducer'
 import { v1 } from 'uuid'
+import {tasksType} from "../AppWithRedux";
 
 let startState: { [key: string]: tasksType[] }
 

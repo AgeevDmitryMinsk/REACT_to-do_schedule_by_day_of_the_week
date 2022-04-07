@@ -1,6 +1,7 @@
 import React from 'react'
-import { tasksValueType } from './App'
+//import { tasksValueType } from './App'
 import { Button } from '@mui/material'
+import {tasksValueType} from "./AppWithRedux";
 
 export type ButtonStatusType = {
     onCLickButtonStatusHandle: (dayID: string, valueB: tasksValueType) => void

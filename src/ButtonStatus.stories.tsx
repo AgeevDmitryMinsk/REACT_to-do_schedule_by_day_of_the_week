@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 
 import { ButtonStatus, ButtonStatusType } from './ButtonStatus'
-import { tasksValueType } from './App'
+// import { tasksValueType } from './App'
 
 import './App.css'
+import {tasksValueType} from "./AppWithRedux";
 
 export default {
     title: 'ButtonStatusX',

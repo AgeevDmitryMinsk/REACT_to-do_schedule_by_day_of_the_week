@@ -1,11 +1,12 @@
 import React from 'react'
-import { tasksType, tasksValueType } from './App'
+//import { tasksType, tasksValueType } from './App'
 import { ButtonStatus } from './ButtonStatus'
 import AddItemForm from './components/AddItemForm'
 import { EditableSpan } from './EditableSpan'
 import { Checkbox, IconButton } from '@mui/material'
 import { Delete } from '@mui/icons-material'
 import DeleteIcon from '@mui/icons-material/Delete'
+import {tasksType, tasksValueType} from "./AppWithRedux";
 
 type TodoListType = {
     weekTitle: string

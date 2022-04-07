@@ -1,7 +1,21 @@
-import { daysType, tasksValueType } from '../App'
+// import { daysType, tasksValueType } from '../App'
+// import {fridayID, mondayID, saturdayID, sundayID, thursdayID, tuesdayID, wednesdayID} from "../AppWithRedux";
+
+import {daysType, tasksValueType} from "../AppWithRedux";
+import {fridayID, mondayID, saturdayID, sundayID, thursdayID, tuesdayID, wednesdayID} from "./tasksReducer";
+
+const initialDays: daysType[] = [
+    { id: mondayID, title: `Monday`, filter: 'all' },
+    { id: tuesdayID, title: `Tuesday`, filter: 'all' },
+    { id: wednesdayID, title: `Wednesday`, filter: 'all' },
+    { id: thursdayID, title: `Thursday`, filter: 'all' },
+    { id: fridayID, title: `Friday`, filter: 'all' },
+    { id: saturdayID, title: `Saturday`, filter: 'all' },
+    { id: sundayID, title: `Sunday`, filter: 'all' },
+]
 
 export const daysReducer = (
-    state: daysType[],
+    state: daysType[] = initialDays,
     action: daysReducerType
 ): Array<daysType> => {
     switch (action.title) {

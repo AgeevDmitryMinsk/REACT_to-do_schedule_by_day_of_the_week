@@ -41,15 +41,15 @@ export type daysType = {
 
 export type tasksValueType = `all` | `completed` | `uncompleted`
 
-export const mondayID = `mondayID___v1()_with_localStorage` //v1()
-export const tuesdayID = `tuesdayID___v1()_with_localStorage` //v1()
-export const wednesdayID = `wednesdayID___v1()_with_localStorage` //v1()
-export const thursdayID = `thursdayID___v1()_with_localStorage` //v1()
-export const fridayID = `fridayID___v1()_with_localStorage` //v1()
-export const saturdayID = `saturdayID___v1()_with_localStorage` // v1()
-export const sundayID = `sundayID___v1()_with_localStorage` //v1()
+const mondayID = `mondayID___v1()_with_localStorage` //v1()
+const tuesdayID = `tuesdayID___v1()_with_localStorage` //v1()
+const wednesdayID = `wednesdayID___v1()_with_localStorage` //v1()
+const thursdayID = `thursdayID___v1()_with_localStorage` //v1()
+const fridayID = `fridayID___v1()_with_localStorage` //v1()
+const saturdayID = `saturdayID___v1()_with_localStorage` // v1()
+const sundayID = `sundayID___v1()_with_localStorage` //v1()
 
-export const initialTasks: { [key: string]: tasksType[] } = {
+const initialTasks: { [key: string]: tasksType[] } = {
     [mondayID]: [
         { id: v1(), title: '1st _ job ', isDone: true },
         { id: v1(), title: '2nd _ job ', isDone: false },
@@ -117,7 +117,7 @@ export const initialTasks: { [key: string]: tasksType[] } = {
 
 //console.log(initialTasks[sundayID][0].title) // = `52th  _ job`
 
-export const initialDays: daysType[] = [
+const initialDays: daysType[] = [
     { id: mondayID, title: `Monday`, filter: 'all' },
     { id: tuesdayID, title: `Tuesday`, filter: 'all' },
     { id: wednesdayID, title: `Wednesday`, filter: 'all' },
