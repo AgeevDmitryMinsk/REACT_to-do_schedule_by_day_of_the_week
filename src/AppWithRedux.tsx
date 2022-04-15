@@ -143,42 +143,42 @@ export function AppWithRedux() {
     // //const [filter, setFilter] = useState<tasksValueType>(`all`) //- убрали/переместили в 87ю строку el.filter!!!
 
     //useEffect for tasks if 1st start
-    useEffect(() => {
-        let tasksTakenFromLocalStorageString =
-            localStorage.getItem('tasksLocalStorage')
-        if (tasksTakenFromLocalStorageString) {
-            let parsedTasksObject = JSON.parse(tasksTakenFromLocalStorageString)
-            console.log(parsedTasksObject)
-            //setTasks(parsedTasksObject)
-            //tasksDispatch(tasksLocalStorageAC(parsedTasksObject))
-            dispatch(tasksLocalStorageAC(parsedTasksObject))
-        }
-    }, [])
+    // useEffect(() => {
+    //     let tasksTakenFromLocalStorageString =
+    //         localStorage.getItem('tasksLocalStorage')
+    //     if (tasksTakenFromLocalStorageString) {
+    //         let parsedTasksObject = JSON.parse(tasksTakenFromLocalStorageString)
+    //         console.log(parsedTasksObject)
+    //         //setTasks(parsedTasksObject)
+    //         //tasksDispatch(tasksLocalStorageAC(parsedTasksObject))
+    //         dispatch(tasksLocalStorageAC(parsedTasksObject))
+    //     }
+    // }, [])
 
     //useEffect for updated tasks (not for 1st start, in other words if localStorage already updated)
-    useEffect(
-        () => localStorage.setItem(`tasksLocalStorage`, JSON.stringify(tasks)),
-        [tasks]
-    )
+    // useEffect(
+    //     () => localStorage.setItem(`tasksLocalStorage`, JSON.stringify(tasks)),
+    //     [tasks]
+    // )
 
     //useEffect for days if 1st start
-    useEffect(() => {
-        let daysTakenFromLocalStorageString =
-            localStorage.getItem(`daysLocalStorage`)
-        if (daysTakenFromLocalStorageString) {
-            let parsedDaysArray = JSON.parse(daysTakenFromLocalStorageString)
-            console.log(parsedDaysArray)
-            //setDays(parsedDaysArray)  !!!!!!!!
-            // daysDispatch(actions.daysLocalStorageAC(parsedDaysArray))
-            dispatch(actions.daysLocalStorageAC(parsedDaysArray))
-        }
-    }, [])
+    // useEffect(() => {
+    //     let daysTakenFromLocalStorageString =
+    //         localStorage.getItem(`daysLocalStorage`)
+    //     if (daysTakenFromLocalStorageString) {
+    //         let parsedDaysArray = JSON.parse(daysTakenFromLocalStorageString)
+    //         console.log(parsedDaysArray)
+    //         //setDays(parsedDaysArray)  !!!!!!!!
+    //         // daysDispatch(actions.daysLocalStorageAC(parsedDaysArray))
+    //         dispatch(actions.daysLocalStorageAC(parsedDaysArray))
+    //     }
+    // }, [])
 
     //useEffect for updated days (not for 1st start, in other words if localStorage already updated)
-    useEffect(
-        () => localStorage.setItem(`daysLocalStorage`, JSON.stringify(days)),
-        [days]
-    )
+    // useEffect(
+    //     () => localStorage.setItem(`daysLocalStorage`, JSON.stringify(days)),
+    //     [days]
+    // )
 
     function addTitle(dayID: string, inpTitle: string) {
         //setTasks([...tasks, {id: v1(), title: inpTitle, isDone: false},])
