@@ -1,44 +1,32 @@
-import React, {
-    useEffect,
-    useReducer,
-    //	useState
-} from 'react'
+import React, {useCallback} from 'react'
 import './App.css'
-import { v1 } from 'uuid'
-import TodoList from './TodoList'
+import {v1} from 'uuid'
 import AddItemForm from './components/AddItemForm'
 import ButtonAppBar from './components/ButtonAppBar'
 import {
-    addNewTodoEmptyListAC,
-    addTitleTasksAC,
-    changeTitleStatusAC,
-    onChangeTaskTitleNameAC,
-    //onChangeTaskTitleNameAC,
-    removeTitleTasksAC,
-    tasksLocalStorageAC,
-    tasksReducer,
+	addNewTodoEmptyListAC,
+	addTitleTasksAC,
+	changeTitleStatusAC,
+	onChangeTaskTitleNameAC,
+	removeTitleTasksAC,
 } from './reducers/tasksReducer'
-import {
-    actions,
-    //addNewTodoListTitleAC, daysLocalStorageAC,
-    daysReducer,
-    //onChangeWeekDayTitleAC,
-    //removeDayAC,
-    //sortTitlesOnButtonStatusAC
-} from './reducers/daysReducer'
+import {actions,} from './reducers/daysReducer'
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootState} from "./state/store";
 
+import TodoList from "./TodoList";
+import DaysContainer from "./components/DaysContainer";
+
 export type tasksType = {
-    id: string
-    title: string
-    isDone: boolean
+	id: string
+	title: string
+	isDone: boolean
 }
 
 export type daysType = {
-    id: string
-    title: string
-    filter: tasksValueType
+	id: string
+	title: string
+	filter: tasksValueType
 }
 
 export type tasksValueType = `all` | `completed` | `uncompleted`
@@ -129,171 +117,212 @@ export type tasksValueType = `all` | `completed` | `uncompleted`
 //     { id: sundayID, title: `Sunday`, filter: 'all' },
 // ]
 
-export function AppWithRedux() {
+function AppWithRedux() {
 
-    const dispatch = useDispatch()
-    const tasks = useSelector<AppRootState, { [key: string]: tasksType[] }>(state => state.tasks)
-    const days = useSelector<AppRootState, daysType[] >(state => state.days)
-    //const [tasks, setTasks] = useState<{ [key: string]: tasksType[] }>(initialTasks)
-    // const [tasks, tasksDispatch] = useReducer(tasksReducer, initialTasks)
-    //
-    // // const [days, setDays] = useState<daysType[]>([
-    // const [days, daysDispatch] = useReducer(daysReducer, initialDays)
-    //
-    // //const [filter, setFilter] = useState<tasksValueType>(`all`) //- убрали/переместили в 87ю строку el.filter!!!
+	const dispatch = useDispatch()
+	const tasks = useSelector<AppRootState, { [key: string]: tasksType[] }>(state => state.tasks)
+	const days = useSelector<AppRootState, daysType[]>(state => state.days)
+	//const [tasks, setTasks] = useState<{ [key: string]: tasksType[] }>(initialTasks)
+	// const [tasks, tasksDispatch] = useReducer(tasksReducer, initialTasks)
+	//
+	// // const [days, setDays] = useState<daysType[]>([
+	// const [days, daysDispatch] = useReducer(daysReducer, initialDays)
+	//
+	// //const [filter, setFilter] = useState<tasksValueType>(`all`) //- убрали/переместили в 87ю строку el.filter!!!
 
-    //useEffect for tasks if 1st start
-    // useEffect(() => {
-    //     let tasksTakenFromLocalStorageString =
-    //         localStorage.getItem('tasksLocalStorage')
-    //     if (tasksTakenFromLocalStorageString) {
-    //         let parsedTasksObject = JSON.parse(tasksTakenFromLocalStorageString)
-    //         console.log(parsedTasksObject)
-    //         //setTasks(parsedTasksObject)
-    //         //tasksDispatch(tasksLocalStorageAC(parsedTasksObject))
-    //         dispatch(tasksLocalStorageAC(parsedTasksObject))
-    //     }
-    // }, [])
+	//useEffect for tasks if 1st start
+	// useEffect(() => {
+	//     let tasksTakenFromLocalStorageString =
+	//         localStorage.getItem('tasksLocalStorage')
+	//     if (tasksTakenFromLocalStorageString) {
+	//         let parsedTasksObject = JSON.parse(tasksTakenFromLocalStorageString)
+	//         console.log(parsedTasksObject)
+	//         //setTasks(parsedTasksObject)
+	//         //tasksDispatch(tasksLocalStorageAC(parsedTasksObject))
+	//         dispatch(tasksLocalStorageAC(parsedTasksObject))
+	//     }
+	// }, [])
 
-    //useEffect for updated tasks (not for 1st start, in other words if localStorage already updated)
-    // useEffect(
-    //     () => localStorage.setItem(`tasksLocalStorage`, JSON.stringify(tasks)),
-    //     [tasks]
-    // )
+	//useEffect for updated tasks (not for 1st start, in other words if localStorage already updated)
+	// useEffect(
+	//     () => localStorage.setItem(`tasksLocalStorage`, JSON.stringify(tasks)),
+	//     [tasks]
+	// )
 
-    //useEffect for days if 1st start
-    // useEffect(() => {
-    //     let daysTakenFromLocalStorageString =
-    //         localStorage.getItem(`daysLocalStorage`)
-    //     if (daysTakenFromLocalStorageString) {
-    //         let parsedDaysArray = JSON.parse(daysTakenFromLocalStorageString)
-    //         console.log(parsedDaysArray)
-    //         //setDays(parsedDaysArray)  !!!!!!!!
-    //         // daysDispatch(actions.daysLocalStorageAC(parsedDaysArray))
-    //         dispatch(actions.daysLocalStorageAC(parsedDaysArray))
-    //     }
-    // }, [])
+	//useEffect for days if 1st start
+	// useEffect(() => {
+	//     let daysTakenFromLocalStorageString =
+	//         localStorage.getItem(`daysLocalStorage`)
+	//     if (daysTakenFromLocalStorageString) {
+	//         let parsedDaysArray = JSON.parse(daysTakenFromLocalStorageString)
+	//         console.log(parsedDaysArray)
+	//         //setDays(parsedDaysArray)  !!!!!!!!
+	//         // daysDispatch(actions.daysLocalStorageAC(parsedDaysArray))
+	//         dispatch(actions.daysLocalStorageAC(parsedDaysArray))
+	//     }
+	// }, [])
 
-    //useEffect for updated days (not for 1st start, in other words if localStorage already updated)
-    // useEffect(
-    //     () => localStorage.setItem(`daysLocalStorage`, JSON.stringify(days)),
-    //     [days]
-    // )
+	//useEffect for updated days (not for 1st start, in other words if localStorage already updated)
+	// useEffect(
+	//     () => localStorage.setItem(`daysLocalStorage`, JSON.stringify(days)),
+	//     [days]
+	// )
 
-    function addTitle(dayID: string, inpTitle: string) {
-        //setTasks([...tasks, {id: v1(), title: inpTitle, isDone: false},])
-        let newID = v1()
-        // tasksDispatch(addTitleTasksAC(dayID, inpTitle, newID))
-         dispatch(addTitleTasksAC(dayID, inpTitle, newID))
-    }
+	// // function addTitle(dayID: string, inpTitle: string) {
+	// //     //setTasks([...tasks, {id: v1(), title: inpTitle, isDone: false},])
+	// //     let newID = v1()
+	// //     // tasksDispatch(addTitleTasksAC(dayID, inpTitle, newID))
+	// //      dispatch(addTitleTasksAC(dayID, inpTitle, newID))
+	// // }
+	// const addTitle = useCallback((dayID: string, inpTitle: string) => {
+	// 	//setTasks([...tasks, {id: v1(), title: inpTitle, isDone: false},])
+	// 	let newID = v1()
+	// 	// tasksDispatch(addTitleTasksAC(dayID, inpTitle, newID))
+	// 	dispatch(addTitleTasksAC(dayID, inpTitle, newID))
+	// }, [dispatch])
+	//
+	// const removeTitle = useCallback((dayID: string, taskID: string) => {
+	// 	//setTasks({...tasks, [dayID]: tasks[dayID].filter(el => el.id !== taskID)})
+	// 	//tasksDispatch(removeTitleTasksAC(dayID, taskID))
+	// 	dispatch(removeTitleTasksAC(dayID, taskID))
+	// }, [dispatch])
+	// // function removeTitle(dayID: string, taskID: string) {
+	// //     //setTasks({...tasks, [dayID]: tasks[dayID].filter(el => el.id !== taskID)})
+	// //     //tasksDispatch(removeTitleTasksAC(dayID, taskID))
+	// //     dispatch(removeTitleTasksAC(dayID, taskID))
+	// // }
+	//
+	// const changeTitleStatus = useCallback((dayID: string,
+	// 									   taskID: string,
+	// 									   isDoneTask: boolean) => {
+	// 	//setTasks({...tasks, [dayID]: tasks[dayID].map(el => el.id === taskID ? {...el, isDone: !isDoneTask}: el)})
+	// 	// tasksDispatch(changeTitleStatusAC(dayID, taskID, isDoneTask))
+	// 	dispatch(changeTitleStatusAC(dayID, taskID, isDoneTask))
+	// }, [dispatch])
+	// // function changeTitleStatus(
+	// //     dayID: string,
+	// //     taskID: string,
+	// //     isDoneTask: boolean
+	// // ) {
+	// //     //setTasks({...tasks, [dayID]: tasks[dayID].map(el => el.id === taskID ? {...el, isDone: !isDoneTask}: el)})
+	// //     // tasksDispatch(changeTitleStatusAC(dayID, taskID, isDoneTask))
+	// //     dispatch(changeTitleStatusAC(dayID, taskID, isDoneTask))
+	// // }
 
-    function removeTitle(dayID: string, taskID: string) {
-        //setTasks({...tasks, [dayID]: tasks[dayID].filter(el => el.id !== taskID)})
-        //tasksDispatch(removeTitleTasksAC(dayID, taskID))
-        dispatch(removeTitleTasksAC(dayID, taskID))
-    }
+	// const addNewTodoList = useCallback((newTodoListTitle: string) => {
+	// 	// должно быть 2 set!!! setDays+setTasks !!!!!
+	// 	let newTodoListID = v1()
+	// 	console.log(`newTodoListTitle in App`, newTodoListTitle)
+	// 	//setTasks({...tasks, [newTodoListID]: []})
+	// 	// tasksDispatch(addNewTodoEmptyListAC(newTodoListID))
+	// 	dispatch(addNewTodoEmptyListAC(newTodoListID))
+	// 	//setDays([...days, {id: newTodoListID, title: newTodoListTitle, filter: "all"},])
+	// 	// daysDispatch( actions.addNewTodoListTitleAC(newTodoListID, newTodoListTitle) )
+	// 	dispatch(actions.addNewTodoListTitleAC(newTodoListID, newTodoListTitle))
+	// }, [dispatch])
+	// function addNewTodoList(newTodoListTitle: string) {
+	// 	// должно быть 2 set!!! setDays+setTasks !!!!!
+	// 	let newTodoListID = v1()
+	// 	console.log(`newTodoListTitle in App`, newTodoListTitle)
+	//
+	// 	//setTasks({...tasks, [newTodoListID]: []})
+	// 	// tasksDispatch(addNewTodoEmptyListAC(newTodoListID))
+	// 	dispatch(addNewTodoEmptyListAC(newTodoListID))
+	//
+	//
+	// 	//setDays([...days, {id: newTodoListID, title: newTodoListTitle, filter: "all"},])
+	// 	// daysDispatch( actions.addNewTodoListTitleAC(newTodoListID, newTodoListTitle) )
+	// 	dispatch(actions.addNewTodoListTitleAC(newTodoListID, newTodoListTitle))
+	// }
 
-    function changeTitleStatus(
-        dayID: string,
-        taskID: string,
-        isDoneTask: boolean
-    ) {
-        //setTasks({...tasks, [dayID]: tasks[dayID].map(el => el.id === taskID ? {...el, isDone: !isDoneTask}: el)})
-        // tasksDispatch(changeTitleStatusAC(dayID, taskID, isDoneTask))
-        dispatch(changeTitleStatusAC(dayID, taskID, isDoneTask))
-    }
+	// const onChangeTaskTitleName = useCallback((dayID: string,
+	// 										   taskID: string,
+	// 										   newTitle: string) => {
+	// 	console.log(newTitle)
+	// 	//setTasks({...tasks, [dayID]: tasks[dayID].map(el => el.id === taskID? {...el, title: newTitle}: el)	})
+	// 	// tasksDispatch(onChangeTaskTitleNameAC(dayID, taskID, newTitle))
+	// 	dispatch(onChangeTaskTitleNameAC(dayID, taskID, newTitle))
+	// }, [dispatch])
+	// // function onChangeTaskTitleName(
+	// // 	dayID: string,
+	// // 	taskID: string,
+	// // 	newTitle: string
+	// // ) {
+	// // 	console.log(newTitle)
+	// // 	//setTasks({...tasks, [dayID]: tasks[dayID].map(el => el.id === taskID? {...el, title: newTitle}: el)	})
+	// // 	// tasksDispatch(onChangeTaskTitleNameAC(dayID, taskID, newTitle))
+	// // 	dispatch(onChangeTaskTitleNameAC(dayID, taskID, newTitle))
+	// // }
 
-    function addNewTodoList(newTodoListTitle: string) {
-        // должно быть 2 set!!! setDays+setTasks !!!!!
-        let newTodoListID = v1()
-        console.log(`newTodoListTitle in App`, newTodoListTitle)
+	// const sortTitlesOnButtonStatus = useCallback((dayID: string, value: tasksValueType) => {
+	// 	//setDays([...days.map(el => el.id === dayID ? {...el, filter: value} : el)])  !!!!!!
+	// 	// daysDispatch(actions.sortTitlesOnButtonStatusAC(dayID, value))
+	// 	dispatch(actions.sortTitlesOnButtonStatusAC(dayID, value))
+	// }, [dispatch])
+	// function sortTitlesOnButtonStatus(dayID: string, value: tasksValueType) {
+	// 	//setDays([...days.map(el => el.id === dayID ? {...el, filter: value} : el)])  !!!!!!
+	// 	// daysDispatch(actions.sortTitlesOnButtonStatusAC(dayID, value))
+	// 	dispatch(actions.sortTitlesOnButtonStatusAC(dayID, value))
+	// }
 
-        //setTasks({...tasks, [newTodoListID]: []})
-        // tasksDispatch(addNewTodoEmptyListAC(newTodoListID))
-         dispatch(addNewTodoEmptyListAC(newTodoListID))
+	// const removeDay = useCallback((dayID: string) => {
+	// 	//setDays([...days.filter(el => el.id !== dayID)])   !!!!!!!
+	// 	// daysDispatch(actions.removeDayAC(dayID))
+	// 	dispatch(actions.removeDayAC(dayID))
+	// 	//console.log(tasks)
+	// 	delete tasks[dayID]
+	// 	//console.log(tasks)
+	// }, [dispatch, tasks])
+	// function removeDay(dayID: string) {
+	// 	//setDays([...days.filter(el => el.id !== dayID)])   !!!!!!!
+	// 	// daysDispatch(actions.removeDayAC(dayID))
+	// 	dispatch(actions.removeDayAC(dayID))
+	// 	//console.log(tasks)
+	// 	delete tasks[dayID]
+	// 	//console.log(tasks)
+	// }
 
+	// const onChangeWeekDayTitle = useCallback((dayID: string, newWeekDayTitle: string) => {
+	// 	console.log(newWeekDayTitle)
+	// 	// setDays([...days.map(el => el.id === dayID ? {...el, title: newWeekDayTitle} : el)]) !!!!
+	// 	//daysDispatch(actions.onChangeWeekDayTitleAC(dayID, newWeekDayTitle))
+	// 	dispatch(actions.onChangeWeekDayTitleAC(dayID, newWeekDayTitle))
+	// }, [dispatch])
+	// function onChangeWeekDayTitle(dayID: string, newWeekDayTitle: string) {
+	// 	console.log(newWeekDayTitle)
+	// 	// setDays([...days.map(el => el.id === dayID ? {...el, title: newWeekDayTitle} : el)]) !!!!
+	// 	//daysDispatch(actions.onChangeWeekDayTitleAC(dayID, newWeekDayTitle))
+	// 	dispatch(actions.onChangeWeekDayTitleAC(dayID, newWeekDayTitle))
+	// }
+	const addNewTodoList = useCallback((newTodoListTitle: string) => {
+		// должно быть 2 set!!! setDays+setTasks !!!!!
+		let newTodoListID = v1()
+		console.log(`newTodoListTitle in App`, newTodoListTitle)
+		//setTasks({...tasks, [newTodoListID]: []})
+		// tasksDispatch(addNewTodoEmptyListAC(newTodoListID))
+		dispatch(addNewTodoEmptyListAC(newTodoListID))
+		//setDays([...days, {id: newTodoListID, title: newTodoListTitle, filter: "all"},])
+		// daysDispatch( actions.addNewTodoListTitleAC(newTodoListID, newTodoListTitle) )
+		dispatch(actions.addNewTodoListTitleAC(newTodoListID, newTodoListTitle))
 
+	}, [dispatch])
+	console.log(days, 'days')
 
-        //setDays([...days, {id: newTodoListID, title: newTodoListTitle, filter: "all"},])
-        // daysDispatch( actions.addNewTodoListTitleAC(newTodoListID, newTodoListTitle) )
-        dispatch( actions.addNewTodoListTitleAC(newTodoListID, newTodoListTitle) )
-    }
+	return (
+		<div className="App">
+			<ButtonAppBar/>
 
-    function onChangeTaskTitleName(
-        dayID: string,
-        taskID: string,
-        newTitle: string
-    ) {
-        console.log(newTitle)
-        //setTasks({...tasks, [dayID]: tasks[dayID].map(el => el.id === taskID? {...el, title: newTitle}: el)	})
-        // tasksDispatch(onChangeTaskTitleNameAC(dayID, taskID, newTitle))
-        dispatch(onChangeTaskTitleNameAC(dayID, taskID, newTitle))
-    }
+			<h2> Todo Week Schedule + 11 Unit Tests(React/TypeScript/Redux).</h2>
 
-    function sortTitlesOnButtonStatus(dayID: string, value: tasksValueType) {
-        //setDays([...days.map(el => el.id === dayID ? {...el, filter: value} : el)])  !!!!!!
-        // daysDispatch(actions.sortTitlesOnButtonStatusAC(dayID, value))
-        dispatch(actions.sortTitlesOnButtonStatusAC(dayID, value))
-    }
+			<div>
+				<AddItemForm addItem={addNewTodoList}/>
+			</div>
 
-    function removeDay(dayID: string) {
-        //setDays([...days.filter(el => el.id !== dayID)])   !!!!!!!
-        // daysDispatch(actions.removeDayAC(dayID))
-        dispatch(actions.removeDayAC(dayID))
-        //console.log(tasks)
-        delete tasks[dayID]
-        //console.log(tasks)
-    }
-
-    function onChangeWeekDayTitle(dayID: string, newWeekDayTitle: string) {
-        console.log(newWeekDayTitle)
-        // setDays([...days.map(el => el.id === dayID ? {...el, title: newWeekDayTitle} : el)]) !!!!
-        //daysDispatch(actions.onChangeWeekDayTitleAC(dayID, newWeekDayTitle))
-        dispatch(actions.onChangeWeekDayTitleAC(dayID, newWeekDayTitle))
-    }
-
-    console.log(days, 'days')
-    return (
-        <div className="App">
-            <ButtonAppBar />
-
-            <h2> Todo Week Schedule + 11 Unit Tests(React/TypeScript/Redux).</h2>
-
-            <div>
-                <AddItemForm addItem={addNewTodoList} />
-            </div>
-
-            <div className="days_container">
-                {days.map((el) => {
-                    let currentTasks = tasks[el.id]
-                    if (el.filter === `completed`)
-                        currentTasks = tasks[el.id].filter((el) => el.isDone)
-                    if (el.filter === `uncompleted`)
-                        currentTasks = tasks[el.id].filter((el) => !el.isDone)
-                    return (
-                        <div className={`week`} key={el.id}>
-                            <TodoList
-                                key={el.id}
-                                dayID={el.id}
-                                tasks={currentTasks}
-                                weekTitle={el.title}
-                                addTitle={addTitle}
-                                changeTitleStatus={changeTitleStatus}
-                                removeTitle={removeTitle}
-                                sortTitlesOnButtonStatus={
-                                    sortTitlesOnButtonStatus
-                                }
-                                filter={el.filter}
-                                removeDay={removeDay}
-                                onChangeTaskTitleName={onChangeTaskTitleName}
-                                onChangeWeekDayTitle={onChangeWeekDayTitle}
-                            />
-                        </div>
-                    )
-                })}
-            </div>
-        </div>
-    )
+			<div className="days_container">
+				<DaysContainer days={days}/>
+			</div>
+		</div>
+	)
 }
 
-//export default App
+export default React.memo(AppWithRedux)

@@ -7,7 +7,7 @@ import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
 import MenuIcon from '@mui/icons-material/Menu'
 
-export default function ButtonAppBar() {
+ function ButtonAppBar() {
     return (
         <Box sx={{ display: 'contents' }}>
             <AppBar position="fixed" color={'primary'}>
@@ -34,3 +34,4 @@ export default function ButtonAppBar() {
         </Box>
     )
 }
+export default React.memo(ButtonAppBar)

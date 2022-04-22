@@ -9,7 +9,7 @@ export type ButtonStatusType = {
     filter: tasksValueType
 }
 
-export const ButtonStatus: React.FC<ButtonStatusType> = ({
+ const ButtonStatus: React.FC<ButtonStatusType> = ({
     onCLickButtonStatusHandle,
     dayID,
     filter,
@@ -38,3 +38,4 @@ export const ButtonStatus: React.FC<ButtonStatusType> = ({
         </div>
     )
 }
+export default React.memo(ButtonStatus)

@@ -1,7 +1,18 @@
 import {tasksReducer} from "../reducers/tasksReducer";
 import {daysReducer} from "../reducers/daysReducer";
-import {combineReducers, createStore} from "redux";
+import {combineReducers, compose, createStore} from "redux";
 import throttle from "lodash.throttle"; // yarn add lodash.throttle //yarn add @types/lodash.throttle
+
+
+// для работы с REDUX_DEVTOOLS:
+declare global {
+	interface window {
+		__REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
+	}
+}
+// @ts-ignore
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
 
 
 //https://medium.com/@jrcreencia/persisting-redux-state-to-local-storage-f81eb0b90e7e
@@ -40,7 +51,7 @@ const rootReducer = combineReducers({
 export type AppRootState = ReturnType<typeof rootReducer>
 
 // непосредственно создаём store по рекомендации Dan Abramov:
-export const store = createStore(rootReducer, loadState())
+export const store = createStore(rootReducer, loadState(), composeEnhancers())
 
 //Дроссель throttle: вызывает функцию не чаще одного раза в 1000 миллисекунд.
 store.subscribe(
@@ -52,6 +63,9 @@ store.subscribe(
 	}, 1000)
 )
 
+
+
 // а это, чтобы можно было в консоли браузера обращаться к store в любой момент
 //@ts-ignore
-window.store=store
+
+//window.store=store

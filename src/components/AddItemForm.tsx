@@ -1,6 +1,10 @@
 import React, { ChangeEvent, useState } from 'react'
-import { Button, IconButton, TextField } from '@mui/material'
-import { AddBox, Fingerprint } from '@mui/icons-material'
+import { //Button,
+    IconButton,
+    TextField } from '@mui/material'
+import { AddBox,
+   // Fingerprint
+} from '@mui/icons-material'
 
 type AddItemFormPropsType = {
     addItem: (newUnivTitle: string) => void
@@ -37,11 +41,11 @@ const AddItemForm: React.FC<AddItemFormPropsType> = ({ addItem }) => {
         }
     }
 
-    function onBlurInputHandle(e: React.FocusEvent<HTMLInputElement, Element>) {
-        onCLickButtonHandle()
-    }
+    // function onBlurInputHandle(e: React.FocusEvent<HTMLInputElement, Element>) {
+    //     onCLickButtonHandle()
+    // }
 
-    let InputStyle = error ? `errorInput` : ``
+    //let InputStyle = error ? `errorInput` : ``
 
     return (
         <>
@@ -63,4 +67,6 @@ const AddItemForm: React.FC<AddItemFormPropsType> = ({ addItem }) => {
     )
 }
 
-export default AddItemForm
+export default React.memo(AddItemForm)
+//export default AddItemForm //title in AddItemForm  4 раза
+

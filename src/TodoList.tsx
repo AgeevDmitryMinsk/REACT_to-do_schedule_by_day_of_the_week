@@ -1,162 +1,184 @@
-import React from 'react'
+import React, {useCallback} from 'react'
 //import { tasksType, tasksValueType } from './App'
-import { ButtonStatus } from './ButtonStatus'
+import ButtonStatus from './ButtonStatus'
 import AddItemForm from './components/AddItemForm'
-import { EditableSpan } from './EditableSpan'
-import { Checkbox, IconButton } from '@mui/material'
-import { Delete } from '@mui/icons-material'
+import {EditableSpan} from './EditableSpan'
+import {IconButton} from '@mui/material'
+//import { Delete } from '@mui/icons-material'
 import DeleteIcon from '@mui/icons-material/Delete'
-import {tasksType, tasksValueType} from "./AppWithRedux";
+import {daysType, tasksType, tasksValueType} from "./AppWithRedux";
+import {Task} from "./Task";
+import {v1} from "uuid";
+import {addNewTodoEmptyListAC, addTitleTasksAC} from "./reducers/tasksReducer";
+import {actions} from "./reducers/daysReducer";
+import {useDispatch, useSelector} from "react-redux";
+import {AppRootState} from "./state/store";
 
 type TodoListType = {
-    weekTitle: string
-    tasks: tasksType[]
-    addTitle: (dayID: string, title: string) => void
-    changeTitleStatus: (dayID: string, taskID: string, isDone: boolean) => void
-    removeTitle: (dayID: string, taskID: string) => void
-    sortTitlesOnButtonStatus: (dayID: string, value: tasksValueType) => void
-    filter: tasksValueType
-    dayID: string
-    removeDay: (dayID: string) => void
-    onChangeTaskTitleName: (
-        dayID: string,
-        taskID: string,
-        newTitle: string
-    ) => void
-    onChangeWeekDayTitle: (dayID: string, newWeekDayTitle: string) => void
+
+	el: daysType
+	//tasks: tasksType[]
+	// tasks: { [key: string]: tasksType[] }
+	// addTitle: (dayID: string, title: string) => void
+	// changeTitleStatus: (dayID: string, taskID: string, isDone: boolean) => void
+	// removeTitle: (dayID: string, taskID: string) => void
+	// sortTitlesOnButtonStatus: (dayID: string, value: tasksValueType) => void
+	// removeDay: (dayID: string) => void
+	// onChangeTaskTitleName: (
+	// 	dayID: string,
+	// 	taskID: string,
+	// 	newTitle: string
+	// ) => void
+	// onChangeWeekDayTitle: (dayID: string, newWeekDayTitle: string) => void
 }
 
 const TodoList: React.FC<TodoListType> = ({
-    tasks,
-    weekTitle,
-    addTitle,
-    changeTitleStatus,
-    removeTitle,
-    sortTitlesOnButtonStatus,
-    filter,
-    dayID,
-    removeDay,
-    onChangeTaskTitleName,
-    onChangeWeekDayTitle,
-}) => {
-    function onCLickButtonStatusHandle(dayID: string, value: tasksValueType) {
-        sortTitlesOnButtonStatus(dayID, value)
-    }
+											  // tasks,
+											  el,
+											  // addTitle,
+											  // changeTitleStatus,
+											  // removeTitle,
+											  // sortTitlesOnButtonStatus,
+											  // removeDay,
+											  // // onChangeTaskTitleName,
+											  // onChangeWeekDayTitle,
+										  }) => {
 
-    let ButtonStyleALL = filter === `all` ? `active` : ``
-    let ButtonStyleCompleted = filter === `completed` ? `active` : ``
-    let ButtonStyleUnCompleted = filter === `uncompleted` ? `active` : ``
 
-    function onClickRemoveDayHandler() {
-        console.log(69)
-        removeDay(dayID)
-    }
+	const {filter, id, title} = el
+	const dispatch = useDispatch()
+	const tasks = useSelector<AppRootState, { [key: string]: tasksType[] }>(state => state.tasks)
 
-    // function addTaskHandler(newTaskTitle:string) {
-    // 	addTitle(dayID, newTaskTitle)
-    // }
+	const sortTitlesOnButtonStatus = useCallback((dayID: string, value: tasksValueType) => {
+		//setDays([...days.map(el => el.id === dayID ? {...el, filter: value} : el)])  !!!!!!
+		// daysDispatch(actions.sortTitlesOnButtonStatusAC(dayID, value))
+		dispatch(actions.sortTitlesOnButtonStatusAC(dayID, value))
+	}, [dispatch])
 
-    function onChangeWeekDayTitleHandler(newWeekDayTitle: string) {
-        onChangeWeekDayTitle(dayID, newWeekDayTitle)
-    }
+	const onCLickButtonStatusHandle = useCallback((dayID: string, value: tasksValueType) => {
+		sortTitlesOnButtonStatus(dayID, value)
+	}, [sortTitlesOnButtonStatus])
 
-    return (
-        <div>
-            <div>
-                <EditableSpan
-                    title={weekTitle}
-                    onChange={onChangeWeekDayTitleHandler}
-                />
-                {/*{weekTitle}*/}
-                {/*<button onClick={onClickRemoveDayHandler}>X</button>*/}
+	const removeDay = useCallback((dayID: string) => {
+		//setDays([...days.filter(el => el.id !== dayID)])   !!!!!!!
+		// daysDispatch(actions.removeDayAC(dayID))
+		dispatch(actions.removeDayAC(dayID))
+		//console.log(tasks)
+		delete tasks[dayID]
+		//console.log(tasks)
+	}, [dispatch])
 
-                <IconButton
-                    onClick={onClickRemoveDayHandler}
-                    aria-label="delete"
-                    size="medium"
-                    color={'primary'}
-                >
-                    <DeleteIcon />
-                </IconButton>
-            </div>
+	const addTitle = useCallback((dayID: string, inpTitle: string) => {
+		//setTasks([...tasks, {id: v1(), title: inpTitle, isDone: false},])
+		let newID = v1()
+		// tasksDispatch(addTitleTasksAC(dayID, inpTitle, newID))
+		dispatch(addTitleTasksAC(dayID, inpTitle, newID))
+	}, [dispatch])
 
-            {/*<AddItemForm addItem={addTaskHandler}/>*/}
-            <AddItemForm
-                addItem={(newTaskTitle) => addTitle(dayID, newTaskTitle)}
-            />
-            <>
-                {/*<input type={"text"} value={title}*/}
-                {/*			 onChange={onChangeInputHandle}*/}
-                {/*			 onKeyPress={onKeyPressInputHandle}*/}
-                {/*			 // onBlur={onBlurInputHandle}*/}
-                {/*			 className={InputStyle}*/}
-                {/*/>*/}
-                {/*<button onClick={onCLickButtonHandle}>+</button>*/}
-                {/*<div className={`errorStyle`}>*/}
-                {/*	{error}*/}
-                {/*</div>*/}
-            </>
-            {tasks.map((el) => {
-                function onChangeCheckBoxHandle() {
-                    console.log(43)
-                    changeTitleStatus(dayID, el.id, el.isDone)
-                }
+	const onChangeWeekDayTitle = useCallback((dayID: string, newWeekDayTitle: string) => {
+		console.log(newWeekDayTitle)
+		// setDays([...days.map(el => el.id === dayID ? {...el, title: newWeekDayTitle} : el)]) !!!!
+		//daysDispatch(actions.onChangeWeekDayTitleAC(dayID, newWeekDayTitle))
+		dispatch(actions.onChangeWeekDayTitleAC(dayID, newWeekDayTitle))
+	}, [dispatch])
 
-                function onClickRemoveHandleButton() {
-                    console.log(62)
-                    removeTitle(dayID, el.id)
-                }
+	// function onCLickButtonStatusHandle(dayID: string, value: tasksValueType) {
+	//     sortTitlesOnButtonStatus(dayID, value)
+	// }
 
-                function onChangeTitleHandler(newTitle: string) {
-                    onChangeTaskTitleName(dayID, el.id, newTitle)
-                }
+	// let ButtonStyleALL = filter === `all` ? `active` : ``
+	// let ButtonStyleCompleted = filter === `completed` ? `active` : ``
+	// let ButtonStyleUnCompleted = filter === `uncompleted` ? `active` : ``
 
-                return (
-                    <div key={el.id} className={`tasksStyle`}>
-                        {/*<span>{el.title}</span>*/}
+	const onChangeWeekDayTitleHandler = useCallback((newWeekDayTitle: string) => {
+		onChangeWeekDayTitle(id, newWeekDayTitle)
+	}, [id, onChangeWeekDayTitle])
+	// function onChangeWeekDayTitleHandler(newWeekDayTitle: string) {
+	//     onChangeWeekDayTitle(dayID, newWeekDayTitle)
+	// }
 
-                        <Checkbox
-                            checked={el.isDone}
-                            onChange={onChangeCheckBoxHandle}
-                            color={'info'}
-                        />
-                        <EditableSpan
-                            title={el.title}
-                            onChange={onChangeTitleHandler}
-                        />
+	const currentTasks = tasks[id].filter((task) => {
+		if (filter === 'completed') {
+			return task.isDone
+		} else if (filter === 'uncompleted') {
+			return !task.isDone
+		} else return task
+	})
+	//console.log({currentTasks, tasks})
+	console.log(`TODOLIST, TODOLIST, TODOLIST`)
 
-                        <IconButton
-                            onClick={onClickRemoveHandleButton}
-                            aria-label="delete"
-                            size="medium"
-                            color={'primary'}
-                        >
-                            <DeleteIcon />
-                        </IconButton>
-                    </div>
-                )
-            })}
 
-            {/*<button onClick={() => onCLickButtonStatusHandle(dayID, `all`)}*/}
-            {/*				className={ButtonStyleALL}>*/}
-            {/*	all*/}
-            {/*</button>*/}
-            {/*<button onClick={() => onCLickButtonStatusHandle(dayID, `completed`)}*/}
-            {/*				className={ButtonStyleCompleted}>*/}
-            {/*	completed*/}
-            {/*</button>*/}
-            {/*<button onClick={() => onCLickButtonStatusHandle(dayID, `uncompleted`)}*/}
-            {/*				className={ButtonStyleUnCompleted}>*/}
-            {/*	uncompleted*/}
-            {/*</button>*/}
+	// if (el.filter === `completed`)
+	// 	currentTasks = tasks[el.id].filter((el) => el.isDone)
+	// if (el.filter === `uncompleted`)
+	// 	currentTasks = tasks[el.id].filter((el) => !el.isDone)
+	return (
+		<div className={`week`}>
+			<div>
+				<div>
+					<EditableSpan
+						title={title}
+						onChange={onChangeWeekDayTitleHandler}
+						itemId={id}
+						removeItem={removeDay}
+					/>
+					{/*{weekTitle}*/}
+					{/*<button onClick={onClickRemoveDayHandler}>X</button>*/}
 
-            <ButtonStatus
-                onCLickButtonStatusHandle={onCLickButtonStatusHandle}
-                dayID={dayID}
-                filter={filter}
-            />
-        </div>
-    )
+
+				</div>
+
+				{/*<AddItemForm addItem={addTaskHandler}/>*/}
+				<AddItemForm
+					//То есть мы засунули нашу функцию в useCallback, и React нам будет формировать и
+					// выплёвывать из этого useCallback всякий раз один и тот же объект и у нас лишие перерисовки  уйдут.
+					addItem={useCallback((newTaskTitle) => addTitle(id, newTaskTitle), [addTitle, id])}
+				/>
+				<>
+					{/*<input type={"text"} value={title}*/}
+					{/*			 onChange={onChangeInputHandle}*/}
+					{/*			 onKeyPress={onKeyPressInputHandle}*/}
+					{/*			 // onBlur={onBlurInputHandle}*/}
+					{/*			 className={InputStyle}*/}
+					{/*/>*/}
+					{/*<button onClick={onCLickButtonHandle}>+</button>*/}
+					{/*<div className={`errorStyle`}>*/}
+					{/*	{error}*/}
+					{/*</div>*/}
+				</>
+				{currentTasks.map((el) => <Task
+
+					el={el}
+					key={el.id}
+					dayID={id}
+					//taskID={}
+
+				/>)}
+
+				<>
+					{/*<button onClick={() => onCLickButtonStatusHandle(dayID, `all`)}*/}
+					{/*				className={ButtonStyleALL}>*/}
+					{/*	all*/}
+					{/*</button>*/}
+					{/*<button onClick={() => onCLickButtonStatusHandle(dayID, `completed`)}*/}
+					{/*				className={ButtonStyleCompleted}>*/}
+					{/*	completed*/}
+					{/*</button>*/}
+					{/*<button onClick={() => onCLickButtonStatusHandle(dayID, `uncompleted`)}*/}
+					{/*				className={ButtonStyleUnCompleted}>*/}
+					{/*	uncompleted*/}
+					{/*</button>*/}
+				</>
+
+				<ButtonStatus
+					onCLickButtonStatusHandle={onCLickButtonStatusHandle}
+					dayID={id}
+					filter={filter}
+				/>
+			</div>
+		</div>
+	)
 }
 
-export default TodoList
+export default React.memo(TodoList)
+

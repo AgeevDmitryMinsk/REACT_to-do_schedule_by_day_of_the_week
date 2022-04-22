@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-import { ButtonStatus, ButtonStatusType } from './ButtonStatus'
+import ButtonStatus, {ButtonStatusType } from './ButtonStatus'
 // import { tasksValueType } from './App'
 
 import './App.css'
