@@ -4,14 +4,17 @@ import {combineReducers, compose, createStore} from "redux";
 import throttle from "lodash.throttle"; // yarn add lodash.throttle //yarn add @types/lodash.throttle
 
 
-// для работы с REDUX_DEVTOOLS:
+// для работы с REDUX_DEVTOOLS: Window c Большой Буквы Window
 declare global {
-	interface window {
+	interface Window {
 		__REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
 	}
 }
-// @ts-ignore
+
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+
+
 
 
 
